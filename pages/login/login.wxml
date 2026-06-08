@@ -1,89 +1,131 @@
+<!-- login.wxml · 深空赛博风登录页 -->
 <view class="login-page">
   <!-- 状态栏 -->
   <view class="status-bar">
     <image src="/assets/svg/X - Light Status Bar.svg" mode="widthFix"></image>
   </view>
 
-  <!-- 背景渐变 -->
+  <!-- 背景 -->
   <view class="background-gradient">
-    <view class="gradient-circle"></view>
-    <view class="gradient-circle secondary"></view>
+    <view class="gradient-circle primary"></view>
+    <view class="gradient-circle accent"></view>
+    <view class="grid-overlay"></view>
   </view>
 
-  <!-- Logo区域 -->
-  <view class="logo-area">
-    <image src="/assets/svg/logo.svg" mode="aspectFit" class="logo-image"></image>
+  <!-- HUD 四角 -->
+  <view class="hud-corner tl"></view>
+  <view class="hud-corner tr"></view>
+  <view class="hud-corner bl"></view>
+  <view class="hud-corner br"></view>
 
-    <view style="height: 30px;"></view>
-
-    <view class="logo-subtitle" animation="{{subtitleAnimation}}" style="transform-origin: center center;">低空装配与仿真平台</view>
-  </view>
-
-  <!-- 用户头像区域 -->
-  <view class="avatar-area">
-    <image src="/assets/svg/Group 63.svg" mode="aspectFit"></image>
-  </view>
-
-  <!-- 表单区域 -->
-  <view class="form-area">
-    <!-- 邮箱输入框 -->
-    <input 
-      type="email" 
-      value="{{email}}" 
-      bindinput="handleEmailInput"
-      placeholder="邮箱"
-      class="input-field"
-    />
-
-    <!-- 密码输入框 -->
-    <input 
-      type="password" 
-      value="{{password}}" 
-      bindinput="handlePasswordInput"
-      placeholder="密码"
-      class="input-field mt-4"
-    />
-
-    <!-- 登录按钮 -->
-    <button 
-      bindtap="handleSubmit"
-      disabled="{{isLoading}}"
-      class="btn btn-primary"
-    >
-      <block wx:if="{{isLoading}}">
-        <view class="loading-spinner"></view>
-      </block>
-      <block wx:else>
-        登录
-      </block>
-    </button>
-
-    <!-- 注册按钮 -->
-    <button 
-      bindtap="handleRegister"
-      class="btn btn-secondary"
-    >
-      注册
-    </button>
-    
-    <!-- 微信登录按钮 -->
-    <button 
-      bindtap="handleWechatLogin"
-      class="btn btn-wechat"
-      disabled="{{isLoading}}"
-    >
-      <text class="wechat-icon">💬</text>
-      <text>微信登录</text>
-    </button>
-  </view>
-
-  <!-- 协议复选框 -->
-  <view class="agreement-area" bindtap="handleAgreeChange">
-    <view class="checkbox" style="{{agreed ? 'background-color: rgb(133, 94, 238); border-color: rgb(133, 94, 238);' : ''}}">
-      <view class="checkbox-inner" style="{{agreed ? 'opacity: 1;' : 'opacity: 0;'}}"></view>
+  <!-- 顶部 brand 区 -->
+  <view class="brand-area">
+    <view class="brand-eyebrow font-mono">
+      <view class="status-dot cyan"></view>
+      <text>// SECURE LOGIN TERMINAL</text>
     </view>
-    <text class="agreement-text">
-      阅读并同意《业务开展协议》和《隐私协议》
+    <view class="logo-area">
+      <image src="/assets/svg/logo.svg" mode="aspectFit" class="logo-image"></image>
+    </view>
+    <view class="logo-subtitle font-mono">LOW-ALTITUDE ASSEMBLY × FLIGHT SIM</view>
+    <view class="brand-meta font-mono">
+      <text>v1.1.0</text>
+      <text class="meta-dot">·</text>
+      <text>ENCRYPTED</text>
+      <text class="meta-dot">·</text>
+      <text>NODE-01</text>
+    </view>
+  </view>
+
+  <!-- 头像装饰（半透明 HUD 风格） -->
+  <view class="avatar-area">
+    <view class="avatar-ring"></view>
+    <view class="avatar-ring r2"></view>
+    <view class="avatar-core">
+      <text class="avatar-glyph">◈</text>
+    </view>
+  </view>
+
+  <!-- 表单区 -->
+  <view class="form-area {{focusedField ? 'shifted' : ''}}">
+    <view class="form-eyebrow font-mono">// AUTHENTICATE</view>
+
+    <view class="input-wrap" data-prefix="MAIL">
+      <input
+        type="text"
+        value="{{email}}"
+        bindinput="handleEmailInput"
+        bindfocus="onFocusEmail"
+        bindblur="onBlurField"
+        placeholder="PILOT@SKIHIVE.IO"
+        class="input-field"
+        placeholder-class="input-placeholder"
+      />
+    </view>
+
+    <view class="input-wrap" data-prefix="KEY">
+      <input
+        password="{{!showPassword}}"
+        value="{{password}}"
+        bindinput="handlePasswordInput"
+        bindfocus="onFocusPassword"
+        bindblur="onBlurField"
+        placeholder="••••••••"
+        class="input-field mt-4"
+        placeholder-class="input-placeholder"
+      />
+      <view class="input-eye" bindtap="togglePassword" wx:if="{{password.length > 0}}">
+        <text>{{showPassword ? '◉' : '◌'}}</text>
+      </view>
+    </view>
+
+    <view class="form-actions">
+      <button
+        bindtap="handleSubmit"
+        disabled="{{isLoading}}"
+        class="btn btn-primary form-btn"
+        hover-class="btn-primary--active"
+      >
+        <block wx:if="{{isLoading}}">
+          <view class="loading-spinner"></view>
+        </block>
+        <block wx:else>
+          <text class="btn-prefix font-mono">▶</text>
+          <text class="btn-label">INITIATE</text>
+        </block>
+      </button>
+
+      <view class="form-divider font-mono">
+        <view class="form-divider-line"></view>
+        <text class="form-divider-text">OR</text>
+        <view class="form-divider-line"></view>
+      </view>
+
+      <button
+        bindtap="handleWechatLogin"
+        class="btn btn-wechat form-btn"
+        disabled="{{isLoading}}"
+        hover-class="btn-wechat--active"
+      >
+        <text class="wechat-icon">◉</text>
+        <text class="btn-label">WECHAT PROTOCOL</text>
+      </button>
+
+      <view class="secondary-actions">
+        <view class="form-link" bindtap="handleRegister" hover-class="form-link--active">
+          <text class="font-mono">→ NEW PILOT? REGISTER</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 协议 -->
+  <view class="agreement-area" bindtap="handleAgreeChange" hover-class="agreement-area--active">
+    <view class="checkbox {{agreed ? 'checked' : ''}}">
+      <view class="checkbox-inner" wx:if="{{agreed}}">✓</view>
+    </view>
+    <text class="agreement-text font-mono">
+      ACCEPT // <text class="agreement-link">SERVICE</text> & <text class="agreement-link">PRIVACY</text>
     </text>
   </view>
 </view>
