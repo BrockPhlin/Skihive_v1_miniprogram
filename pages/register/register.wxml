@@ -1,73 +1,123 @@
+<!-- register.wxml · 深空赛博风注册页 -->
 <view class="register-page">
   <!-- 状态栏 -->
   <view class="status-bar">
     <image src="/assets/svg/X - Light Status Bar.svg" mode="widthFix"></image>
   </view>
 
-  <!-- 背景渐变 -->
+  <!-- 背景 -->
   <view class="background-gradient">
-    <view class="gradient-circle"></view>
-    <view class="gradient-circle secondary"></view>
+    <view class="gradient-circle primary"></view>
+    <view class="gradient-circle accent"></view>
+    <view class="grid-overlay"></view>
   </view>
 
-  <!-- Logo区域 -->
-  <view class="logo-area">
-    <image src="/assets/svg/logo.svg" mode="aspectFit" class="logo-image"></image>
+  <!-- HUD 四角 -->
+  <view class="hud-corner tl"></view>
+  <view class="hud-corner tr"></view>
+  <view class="hud-corner bl"></view>
+  <view class="hud-corner br"></view>
 
-    <view style="height: 30px;"></view>
-
-    <view class="logo-subtitle">低空装配与仿真平台</view>
+  <!-- Brand -->
+  <view class="brand-area">
+    <view class="brand-eyebrow font-mono">
+      <view class="status-dot gold"></view>
+      <text>// NEW PILOT REGISTRATION</text>
+    </view>
+    <view class="logo-area">
+      <image src="/assets/svg/logo.svg" mode="aspectFit" class="logo-image"></image>
+    </view>
+    <view class="logo-subtitle font-mono">CREATE YOUR FLIGHT IDENTITY</view>
   </view>
 
-  <!-- 表单区域 -->
-  <view class="form-area">
-    <!-- 邮箱输入框 -->
-    <input 
-      type="email" 
-      value="{{email}}" 
-      bindinput="handleEmailInput"
-      placeholder="邮箱"
-      class="input-field"
-    />
+  <!-- 表单 -->
+  <view class="form-area {{focusedField ? 'shifted' : ''}}">
+    <view class="form-eyebrow font-mono">// IDENTITY SETUP</view>
 
-    <!-- 密码输入框 -->
-    <input 
-      type="password" 
-      value="{{password}}" 
-      bindinput="handlePasswordInput"
-      placeholder="密码"
-      class="input-field mt-4"
-    />
+    <view class="input-wrap" data-prefix="MAIL">
+      <input
+        type="text"
+        value="{{email}}"
+        bindinput="handleEmailInput"
+        bindfocus="onFocusField"
+        bindblur="onBlurField"
+        placeholder="PILOT@SKIHIVE.IO"
+        class="input-field"
+        placeholder-class="input-placeholder"
+      />
+    </view>
 
-    <!-- 确认密码输入框 -->
-    <input 
-      type="password" 
-      value="{{confirmPassword}}" 
-      bindinput="handleConfirmPasswordInput"
-      placeholder="确认密码"
-      class="input-field mt-4"
-    />
+    <view class="input-wrap" data-prefix="NAME">
+      <input
+        type="text"
+        value="{{nickname}}"
+        bindinput="handleNicknameInput"
+        bindfocus="onFocusField"
+        bindblur="onBlurField"
+        placeholder="CALLSIGN"
+        class="input-field mt-4"
+        placeholder-class="input-placeholder"
+      />
+    </view>
 
-    <!-- 注册按钮 -->
-    <button 
-      bindtap="handleSubmit"
-      disabled="{{isLoading}}"
-      class="btn btn-primary"
-    >
-      <block wx:if="{{isLoading}}">
-        <view class="loading-spinner"></view>
-      </block>
-      <block wx:else>
-        注册
-      </block>
-    </button>
+    <view class="input-wrap" data-prefix="KEY">
+      <input
+        password="{{!showPassword}}"
+        value="{{password}}"
+        bindinput="handlePasswordInput"
+        bindfocus="onFocusField"
+        bindblur="onBlurField"
+        placeholder="••••••••"
+        class="input-field mt-4"
+        placeholder-class="input-placeholder"
+      />
+      <view class="input-eye" bindtap="togglePassword" wx:if="{{password.length > 0}}">
+        <text>{{showPassword ? '◉' : '◌'}}</text>
+      </view>
+    </view>
 
-    <!-- 登录按钮 -->
-    <button 
-      bindtap="handleLogin"
-      class="btn btn-secondary"
-    >
-      已有账户？去登录
-    </button>
+    <view class="input-wrap" data-prefix="REKEY">
+      <input
+        password="{{!showPassword}}"
+        value="{{confirmPassword}}"
+        bindinput="handleConfirmPasswordInput"
+        bindfocus="onFocusField"
+        bindblur="onBlurField"
+        placeholder="CONFIRM"
+        class="input-field mt-4"
+        placeholder-class="input-placeholder"
+      />
+    </view>
+
+    <!-- 密码强度提示 -->
+    <view class="password-strength" wx:if="{{password.length > 0}}">
+      <view class="strength-bar">
+        <view class="strength-fill {{passwordStrength}}" style="width: {{passwordStrengthPercent}}%"></view>
+      </view>
+      <text class="strength-text font-mono">STRENGTH // {{passwordStrengthText}}</text>
+    </view>
+
+    <view class="form-actions">
+      <button
+        bindtap="handleSubmit"
+        disabled="{{isLoading}}"
+        class="btn btn-primary form-btn"
+        hover-class="btn-primary--active"
+      >
+        <block wx:if="{{isLoading}}">
+          <view class="loading-spinner"></view>
+        </block>
+        <block wx:else>
+          <text class="btn-prefix font-mono">▶</text>
+          <text class="btn-label">CREATE PILOT ID</text>
+        </block>
+      </button>
+
+      <view class="secondary-actions">
+        <view class="form-link" bindtap="handleLogin" hover-class="form-link--active">
+          <text class="font-mono">→ ALREADY REGISTERED? LOGIN</text>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

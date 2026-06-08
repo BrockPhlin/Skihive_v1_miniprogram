@@ -1,0 +1,260 @@
+/* share-poster.wxss */
+.poster-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  padding-bottom: 40rpx;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 40rpx;
+  padding-top: 30rpx;
+}
+
+.nav-back {
+  font-size: 40rpx;
+  color: #fff;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-placeholder {
+  width: 60rpx;
+}
+
+.poster-container {
+  display: flex;
+  justify-content: center;
+  padding: 30rpx;
+}
+
+.poster {
+  width: 540rpx;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  border-radius: 30rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.poster-top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.drone-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drone-image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 20rpx;
+}
+
+.drone-icon {
+  font-size: 120rpx;
+}
+
+.drone-name {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 20rpx;
+}
+
+.drone-color {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 10rpx;
+}
+
+.poster-middle {
+  padding: 0 40rpx;
+}
+
+.poster-grid {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40rpx;
+  margin: 20rpx 0;
+}
+
+.grid-item {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 15rpx;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2rpx solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.grid-item::after {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.grid-1::after { background: #4ade80; }
+.grid-2::after { background: #60a5fa; }
+.grid-3::after { background: #f472b6; }
+.grid-4::after { background: #855ee3; }
+
+.poster-task-img {
+  width: 100%;
+  height: 260rpx;
+  border-radius: 15rpx;
+  margin-bottom: 15rpx;
+}
+
+.task-showcase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15rpx;
+}
+
+.task-name {
+  font-size: 28rpx;
+  color: #fff;
+}
+
+.poster-bottom {
+  padding: 30rpx 40rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.personality-tag {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.personality-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #855ee3;
+}
+
+.personality-sub {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5rpx;
+}
+
+.stats-row {
+  display: flex;
+  margin-bottom: 30rpx;
+}
+
+.stat {
+  text-align: center;
+  padding: 10rpx 15rpx;
+  margin-right: 20rpx;
+}
+
+.stat:last-child {
+  margin-right: 0;
+}
+
+.stat-highlight {
+  background: rgba(133, 94, 227, 0.3);
+  border-radius: 10rpx;
+}
+
+.stat-val {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.personality-tag .stat-val {
+  color: #855ee3;
+}
+
+.stat-lbl {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5rpx;
+}
+
+.personality-tag .stat-val {
+  color: #855ee3;
+}
+
+.stat-lbl {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5rpx;
+}
+
+.brand {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+.poster-canvas {
+  position: fixed;
+  left: -9999rpx;
+  top: -9999rpx;
+  width: 540rpx;
+  height: 800rpx;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30rpx;
+}
+
+.btn-save {
+  padding: 30rpx;
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.btn-share {
+  padding: 30rpx;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.btn-home {
+  padding: 30rpx;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  border-radius: 50rpx;
+  font-size: 32rpx;
+}

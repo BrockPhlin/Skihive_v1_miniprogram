@@ -1,46 +1,115 @@
 <view class="flying-page">
-  <view class="content">
-    <text class="title">飞行页面</text>
-    
-    <view class="score-card" wx:if="{{evaluationScore != null}}">
-      <text class="score-label">综合性能得分</text>
-      <text class="score-value">{{evaluationScore}}</text>
-      <text class="score-hint">演示加权模型；动力系统与重量/成本权衡可参考 flyeval.com/paper 多旋翼性能评估思路</text>
-    </view>
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack" style="position: relative; left: -8rpx; top: 47rpx">←</view>
+    <view class="nav-title" style="position: relative; left: 11rpx; top: 50rpx">虚拟飞行</view>
+    <view class="nav-placeholder"></view>
+  </view>
 
-    <view class="assembly-info" wx:if="{{assemblyIds.length}}">
-      <text class="assembly-label">当前装配</text>
-      <text class="assembly-text">{{assemblySummary}}</text>
-    </view>
+  <!-- 任务信息 -->
+  <view class="task-banner" wx:if="{{task}}" style="position: relative; left: 0rpx; top: 50rpx">
+    <text class="task-name">📋 {{task.name}}</text>
+  </view>
 
-    <view class="flight-status">
-      <text class="status-text">
-        {{isFlying ? '飞行中' : '未飞行'}}
-      </text>
-      <text class="time-text">
-        飞行时间: {{flightTime}}s
-      </text>
+  <!-- 飞行器展示 -->
+  <view class="drone-display">
+    <image
+      class="drone-image"
+      src="{{droneConfig.imageUrl}}"
+      mode="aspectFit"
+      wx:if="{{droneConfig.imageUrl}}"
+      binderror="onDroneImageError"
+      bindload="onDroneImageLoad"
+    ></image>
+    <view class="drone-icon" wx:else>🛸</view>
+    <view class="drone-name" wx:if="{{droneConfig.body}}">
+      {{droneConfig.body}}
     </view>
+  </view>
 
-    <view class="controls">
-      <button 
-        bindtap="handleStartFlying"
-        disabled="{{isFlying}}"
-        class="control-button start"
-      >
-        开始飞行
-      </button>
-      <button 
-        bindtap="handleStopFlying"
-        disabled="{{!isFlying}}"
-        class="control-button stop"
-      >
-        停止飞行
-      </button>
+  <!-- 飞行状态 -->
+  <view class="flight-status">
+    <view class="status-badge {{isFlying ? 'flying' : 'idle'}}">
+      {{isFlying ? '飞行中 🔴' : '待机中 ⚪️'}}
     </view>
+    <view class="time-display">
+      <text class="time-value">{{flightTime}}</text>
+      <text class="time-unit">秒</text>
+    </view>
+  </view>
 
-    <button bindtap="handleNavigateToAssembly" class="nav-button">
-      查看性能评估
+  <!-- 性能指标 -->
+  <view class="stats-card" wx:if="{{stats}}">
+    <view class="stats-title">飞行器性能</view>
+    <view class="stats-grid">
+      <view class="stat-box">
+        <view class="stat-label">续航</view>
+        <view class="stat-value">{{currentBattery}}</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-label">稳定</view>
+        <view class="stat-value">{{stats.stability}}</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-label">趣味</view>
+        <view class="stat-value">{{stats.fun}}</view>
+      </view>
+    </view>
+    <view class="total-score">
+      综合评分: <text class="score-num">{{totalScore}}</text>
+    </view>
+  </view>
+
+  <!-- 事件记录 -->
+  <view class="event-log" wx:if="{{flightSession.events.length > 0}}">
+    <view class="log-title">飞行记录</view>
+    <scroll-view scroll-y style="max-height: 300rpx;">
+      <view class="log-list">
+        <view class="log-item" wx:for="{{flightSession.events}}" wx:key="index">
+          <view class="log-event">
+            <text class="log-icon">{{item.event.type === 'weather' ? '🌤' : item.event.type === 'obstacle' ? '⚠️' : item.event.type === 'emergency' ? '🚨' : '✨'}}</text>
+            <text class="log-title-text">{{item.event.title}}</text>
+          </view>
+          <view class="log-desc">{{item.event.description}}</view>
+          <view class="log-choice">→ {{item.choiceText}}：{{item.result.narration}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="controls">
+    <button
+      bindtap="handleStartFlying"
+      disabled="{{isFlying}}"
+      class="control-btn start"
+    >
+      {{isFlying ? '飞行中...' : '开始飞行'}}
+    </button>
+    <button
+      bindtap="handleStopFlying"
+      disabled="{{!isFlying}}"
+      class="control-btn stop"
+    >
+      停止飞行
     </button>
   </view>
+
+  <!-- 完成按钮 -->
+  <view class="finish-section">
+    <button bindtap="handleFinishFlight" class="finish-btn">
+      完成飞行 🚀
+    </button>
+  </view>
+
+  <!-- 事件卡片弹窗 -->
+  <event-card
+    wx:if="{{currentEvent}}"
+    event="{{currentEvent}}"
+    visible="{{eventModalVisible}}"
+    battery="{{currentBattery}}"
+    eventIndex="{{eventIndex}}"
+    totalEvents="{{totalEvents}}"
+    bind:choice="onEventChoice"
+  />
 </view>

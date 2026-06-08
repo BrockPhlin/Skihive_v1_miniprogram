@@ -1,0 +1,71 @@
+<view class="flight-records-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar" style="height: 306rpx; display: flex; box-sizing: border-box">
+    <view class="nav-back" bindtap="navigateBack">
+      <text>←</text>
+    </view>
+    <view class="nav-title">{{isAdmin ? '所有飞行记录' : '我的飞行记录'}}</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="records-list" wx:if="{{!isEmpty}}">
+    <view class="record-item" wx:for="{{records}}" wx:key="id">
+      <view class="record-header">
+        <view class="record-task">{{item.taskName || '未知任务'}}</view>
+        <view class="record-actions">
+          <view class="record-score">评分: {{item.score || 0}}</view>
+          <text class="delete-btn" bindtap="deleteRecord" data-id="{{item.id}}">删除</text>
+        </view>
+      </view>
+
+      <view class="record-body">
+        <view class="record-info" wx:if="{{isAdmin}}">
+          <text class="label">用户:</text>
+          <text class="value">{{item.userNickname || '未知'}}</text>
+        </view>
+        <view class="record-info">
+          <text class="label">飞行时间:</text>
+          <text class="value">{{item.flightTime || 0}}秒</text>
+        </view>
+        <view class="record-info">
+          <text class="label">环境:</text>
+          <text class="value">{{item.environmentName || '未知'}}</text>
+        </view>
+        <view class="record-info">
+          <text class="label">时间:</text>
+          <text class="value">{{item.formattedTime}}</text>
+        </view>
+        <view class="record-info" wx:if="{{item.personality}}">
+          <text class="label">飞手人格:</text>
+          <text class="value">{{item.personality}}</text>
+        </view>
+      </view>
+
+      <view class="record-drone" wx:if="{{item.droneConfig}}">
+        <view class="drone-title">飞行器配置:</view>
+        <view class="drone-config">
+          <text wx:if="{{item.droneConfig.body}}">母体: {{item.droneConfig.body}} | </text>
+          <text wx:if="{{item.droneConfig.shell}}">外壳: {{item.droneConfig.shell}} | </text>
+          <text wx:if="{{item.droneConfig.color}}">配色: {{item.droneConfig.color}} | </text>
+          <text wx:if="{{item.droneConfig.module}}">模块: {{item.droneConfig.module}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 未登录状态 -->
+  <view class="empty-state" wx:if="{{notLoggedIn}}">
+    <text class="empty-icon">🔒</text>
+    <text class="empty-text">请先登录</text>
+    <text class="empty-sub">登录后可查看飞行记录</text>
+    <button class="login-btn" bindtap="goToLogin">点击登录</button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:elif="{{isEmpty}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">暂无飞行记录</text>
+    <text class="empty-sub">完成飞行后记录会显示在这里</text>
+  </view>
+</view>

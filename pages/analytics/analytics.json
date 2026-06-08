@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "数据统计",
+  "usingComponents": {
+    "radar-chart": "/components/radar-chart/radar-chart",
+    "progress-bar": "/components/progress-bar/progress-bar",
+    "card": "/components/card/card",
+    "animated-number": "/components/animated-number/animated-number"
+  }
+}

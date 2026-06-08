@@ -1,0 +1,145 @@
+<view class="story-page">
+  <!-- 导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">{{isChapterMode ? '剧情模式' : currentChapter.title}}</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 章节选择模式 -->
+  <view wx:if="{{isChapterMode}}" class="chapter-list">
+    <view class="chapter-header">
+      <view class="chapter-number">STORY MODE</view>
+      <view class="chapter-title">选择章节</view>
+      <view class="chapter-desc">探索无人机世界的故事，体验不同的冒险</view>
+    </view>
+
+    <view class="progress-bar">
+      <view class="progress-dot {{progress >= 0.25 ? 'completed' : ''}}"></view>
+      <view class="progress-dot {{progress >= 0.5 ? 'completed' : ''}}"></view>
+      <view class="progress-dot {{progress >= 0.75 ? 'completed' : ''}}"></view>
+      <view class="progress-dot {{progress >= 1 ? 'completed' : ''}}"></view>
+    </view>
+
+    <view
+      wx:for="{{chapters}}"
+      wx:key="id"
+      class="chapter-card {{item.locked ? 'locked' : ''}}"
+      bindtap="onChapterTap"
+      data-chapter-id="{{item.id}}"
+    >
+      <view class="chapter-card-header">
+        <view class="chapter-icon">{{item.icon}}</view>
+        <view class="chapter-card-info">
+          <view class="chapter-card-num">第{{item.id}}章</view>
+          <view class="chapter-card-title">{{item.title}}</view>
+        </view>
+      </view>
+      <view class="chapter-card-desc">{{item.description}}</view>
+      <view class="chapter-status">
+        <text
+          wx:if="{{item.status === 'new'}}"
+          class="status-tag status-new"
+        >NEW</text>
+        <text
+          wx:elif="{{item.status === 'progress'}}"
+          class="status-tag status-progress"
+        >进行中</text>
+        <text
+          wx:elif="{{item.status === 'completed'}}"
+          class="status-tag status-completed"
+        >已完成</text>
+        <text
+          wx:elif="{{item.locked}}"
+          class="status-tag status-locked"
+        >🔒 未解锁</text>
+        <text
+          wx:if="{{item.status !== 'locked' && item.status !== 'new'}}"
+          class="chapter-progress"
+        >{{item.progress}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 剧情阅读模式 -->
+  <view wx:else>
+    <!-- 章节标题 -->
+    <view class="chapter-header">
+      <view class="chapter-number">第{{currentChapter.id}}章</view>
+      <view class="chapter-title">{{currentChapter.title}}</view>
+      <view class="chapter-desc">{{currentChapter.description}}</view>
+    </view>
+
+    <!-- 进度指示 -->
+    <view class="progress-bar">
+      <view
+        wx:for="{{currentChapter.scenes.length}}"
+        wx:key="index"
+        class="progress-dot {{index < currentSceneIndex ? 'completed' : index === currentSceneIndex ? 'active' : ''}}"
+      ></view>
+    </view>
+
+    <!-- 剧情内容区域 -->
+    <scroll-view scroll-y class="story-content" enhanced>
+      <!-- 剧情叙述 -->
+      <view wx:if="{{currentNarration}}" class="narration-box">
+        <text class="narration-text">{{displayedNarration}}</text>
+      </view>
+
+      <!-- 对话内容 -->
+      <view wx:for="{{currentDialogues}}" wx:key="index" class="dialogue-container">
+        <view class="character-name">
+          <view class="character-avatar">{{item.characterIcon}}</view>
+          <text>{{item.character}}</text>
+        </view>
+        <text class="dialogue-text">{{item.displayedText}}</text>
+        <view wx:if="{{isTyping && index === currentDialogues.length - 1}}" class="cursor-blink"></view>
+      </view>
+
+      <!-- 隐藏结局提示 -->
+      <view wx:if="{{showSecretHint}}" class="secret-hint">
+        <view class="secret-hint-icon">🔮</view>
+        <view class="secret-hint-text">隐藏结局提示</view>
+        <view class="secret-hint-title">{{secretHint.title}}</view>
+        <view class="secret-hint-desc">{{secretHint.description}}</view>
+      </view>
+
+      <!-- 选项列表 -->
+      <view wx:if="{{showOptions}}" class="options-container">
+        <view class="options-title">—— 请选择 ——</view>
+        <view
+          wx:for="{{currentOptions}}"
+          wx:key="id"
+          class="option-item"
+          bindtap="onOptionTap"
+          data-option-id="{{item.id}}"
+        >
+          <text class="option-id">{{index + 1}}</text>
+          <text class="option-text">{{item.text}}</text>
+          <text
+            wx:if="{{item.tag}}"
+            class="option-tag {{item.tag === 'main' ? 'tag-main' : item.tag === 'branch' ? 'tag-branch' : 'tag-secret'}}"
+          >{{item.tagText}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- 底部提示 -->
+    <view class="story-footer">
+      <text class="footer-hint">{{isTyping ? '剧情播放中...' : showOptions ? '选择一个选项继续' : '继续剧情'}}</text>
+    </view>
+  </view>
+
+  <!-- 确认弹窗 -->
+  <view wx:if="{{showConfirm}}" class="confirm-overlay" bindtap="onCancelConfirm">
+    <view class="confirm-box" catchtap="onKeepConfirm">
+      <view class="confirm-title">确认选择</view>
+      <view class="confirm-choice">{{selectedOption.text}}</view>
+      <view class="confirm-result">{{selectedOption.resultPreview}}</view>
+      <view class="confirm-buttons">
+        <button class="confirm-btn cancel" bindtap="onCancelConfirm">取消</button>
+        <button class="confirm-btn confirm" bindtap="onConfirmChoice">确认</button>
+      </view>
+    </view>
+  </view>
+</view>

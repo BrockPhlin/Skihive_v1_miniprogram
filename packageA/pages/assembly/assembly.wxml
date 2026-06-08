@@ -1,100 +1,156 @@
 <view class="assembly-page">
-  <view class="status-bar"></view>
-
-  <view class="title-area">
-    <view class="main-title">组件装配</view>
-    <view class="subtitle">点击图标进入选型，六项全部确认后可开始飞行</view>
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">创作工作台</view>
+    <view class="nav-placeholder"></view>
   </view>
 
-  <view class="progress-area">
-    <view class="progress-text">{{completedCount}}/6</view>
+  <!-- 任务信息 -->
+  <view class="task-banner" wx:if="{{task}}">
+    <image class="task-image" src="{{task.image}}" mode="aspectFill"></image>
+    <text class="task-name">您的任务：{{task.name}}</text>
   </view>
 
-  <view class="preview-area">
-    <view class="preview-background">
-      <image src="/assets/svg/Group 20.svg" mode="aspectFit"></image>
+  <!-- A. 飞行器实时展示区 -->
+  <view class="preview-section">
+    <view class="drone-preview">
+      <image class="assembly-image" src="{{assemblyImageUrl}}" mode="aspectFit" wx:if="{{assemblyImageUrl}}"></image>
+      <view class="preview-color" style="background:{{selectedColorHex}}"></view>
     </view>
-    <view class="preview-content">
-      <block wx:if="{{completedCount == 6}}">
-        <view class="complete-content">
-          <view class="checkmark">✓</view>
-          <view class="complete-text">装配完成！</view>
+  </view>
+
+  <!-- D. 即时反馈区 (移到预览区和组件选择之间) -->
+  <view class="feedback-section">
+    <view class="feedback-text">{{feedback}}</view>
+    <view class="stats-row">
+      <view class="stat-item">
+        <view class="stat-label">续航</view>
+        <view class="stat-bar">
+          <view class="stat-bar-fill stat-bar-green" style="width:{{stats.duration}}%"></view>
         </view>
-      </block>
-      <block wx:else>
-        <text class="preview-hint">点击周围图标逐项选型</text>
-      </block>
+        <view class="stat-value">{{stats.duration}}</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-label">稳定</view>
+        <view class="stat-bar">
+          <view class="stat-bar-fill stat-bar-blue" style="width:{{stats.stability}}%"></view>
+        </view>
+        <view class="stat-value">{{stats.stability}}</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-label">趣味</view>
+        <view class="stat-bar">
+          <view class="stat-bar-fill stat-bar-pink" style="width:{{stats.fun}}%"></view>
+        </view>
+        <view class="stat-value">{{stats.fun}}</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-label">匹配</view>
+        <view class="stat-bar">
+          <view class="stat-bar-fill stat-bar-purple" style="width:{{match}}%"></view>
+        </view>
+        <view class="stat-value">{{match}}</view>
+      </view>
     </view>
   </view>
 
-  <view
-    class="component-button component-button--propeller {{slotDoneFlags.propeller ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="propeller"
-  >
-    <image src="/assets/svg/Group 66.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.propeller}}">✓</view>
+  <!-- B. 功能模块库 -->
+  <view class="section">
+    <view class="section-title">功能模块（可多选）</view>
+    <scroll-view class="module-scroll" scroll-x="true">
+      <view class="module-list">
+        <view
+          class="module-item {{selectedModuleMap[item.id] ? 'module-item-selected' : 'module-item-normal'}}"
+          wx:for="{{modules}}"
+          wx:key="id"
+          bindtap="selectModule"
+          data-id="{{item.id}}"
+        >
+          <text class="module-icon">{{item.icon}}</text>
+          <text class="module-name">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
   </view>
 
-  <view
-    class="component-button component-button--motor {{slotDoneFlags.motor ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="motor"
-  >
-    <image src="/assets/svg/Group 40.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.motor}}">✓</view>
+  <!-- C. 外观造型库 -->
+  <view class="section">
+    <view class="section-title">外观造型</view>
+
+    <!-- 母体 -->
+    <view class="sub-section">
+      <view class="sub-title">母体</view>
+      <view class="option-list">
+        <view
+          class="option-item {{selectedBody === item.id ? 'selected' : ''}}"
+          wx:for="{{bodies}}"
+          wx:key="id"
+          bindtap="selectBody"
+          data-id="{{item.id}}"
+        >
+          <text class="option-icon">{{item.icon}}</text>
+          <text class="option-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 外壳 -->
+    <view class="sub-section">
+      <view class="sub-title">外壳</view>
+      <view class="option-list">
+        <view
+          class="option-item {{selectedShell === item.id ? 'selected' : ''}}"
+          wx:for="{{shells}}"
+          wx:key="id"
+          bindtap="selectShell"
+          data-id="{{item.id}}"
+        >
+          <text class="option-icon">{{item.icon}}</text>
+          <text class="option-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 配色 -->
+    <view class="sub-section">
+      <view class="sub-title">配色</view>
+      <view class="color-list">
+        <view
+          class="color-item {{selectedColor === item.id ? 'selected' : ''}}"
+          wx:for="{{colors}}"
+          wx:key="id"
+          bindtap="selectColor"
+          data-id="{{item.id}}"
+        >
+          <view class="color-swatch" style="background:{{item.color}}"></view>
+          <text class="color-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 点缀件 -->
+    <view class="sub-section">
+      <view class="sub-title">点缀件</view>
+      <view class="option-list">
+        <view
+          class="option-item {{selectedAccessory === item.id ? 'selected' : ''}}"
+          wx:for="{{accessories}}"
+          wx:key="id"
+          bindtap="selectAccessory"
+          data-id="{{item.id}}"
+        >
+          <text class="option-icon">{{item.icon}}</text>
+          <text class="option-name">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
   </view>
 
-  <view
-    class="component-button component-button--battery {{slotDoneFlags.battery ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="battery"
-  >
-    <image src="/assets/svg/Group 45.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.battery}}">✓</view>
-  </view>
-
-  <view
-    class="component-button component-button--sensor {{slotDoneFlags.sensor ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="sensor"
-  >
-    <image src="/assets/svg/Group 67.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.sensor}}">✓</view>
-  </view>
-
-  <view
-    class="component-button component-button--frame {{slotDoneFlags.frame ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="frame"
-  >
-    <image src="/assets/svg/Group 36.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.frame}}">✓</view>
-  </view>
-
-  <view
-    class="component-button component-button--camera {{slotDoneFlags.camera ? 'is-done' : ''}}"
-    bindtap="handleComponentClick"
-    data-id="camera"
-  >
-    <image src="/assets/svg/Group 37.svg" mode="aspectFit"></image>
-    <view class="done-badge" wx:if="{{slotDoneFlags.camera}}">✓</view>
-  </view>
-
-  <view class="ai-analysis-area">
-    <image src="/assets/svg/Group 68.svg" mode="aspectFit"></image>
-  </view>
-
-  <view class="bottom-buttons">
-    <button bindtap="handleReset" class="reset-button">
-      <text class="reset-icon">↺</text>
-    </button>
-    <button
-      bindtap="handleBottomButton"
-      disabled="{{completedCount < 6}}"
-      class="next-button {{completedCount >= 6 ? 'next-button--ready' : ''}}"
-    >
-      <text class="next-text">开始飞行</text>
+  <!-- 底部按钮 -->
+  <view class="bottom-bar">
+    <button class="start-btn" bindtap="startFlying">
+      开始飞行 🚀
     </button>
   </view>
 </view>

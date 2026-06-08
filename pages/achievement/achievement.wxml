@@ -1,0 +1,138 @@
+<view class="achievement-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text style="position: relative; left: -8rpx; top: 54rpx">←</text>
+    </view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Header -->
+  <view class="achievement-header">
+    <view class="header-title-area">
+      <text class="header-title" style="position: relative; left: 66rpx; top: 2rpx">成就系统</text>
+      <view class="unlock-count" style="position: relative; left: 70rpx; top: 0rpx">
+        <text class="unlock-num">{{unlockedCount}}</text>
+        <text class="unlock-separator">/</text>
+        <text class="unlock-total">{{totalCount}}</text>
+      </view>
+    </view>
+    <text class="header-subtitle" style="height: -66rpx; display: ; box-sizing: ; left: 0rpx; top: 0rpx; width: 693rpx">已解锁成就</text>
+  </view>
+
+  <!-- Achievement Grid -->
+  <view class="achievement-grid">
+    <view
+      wx:for="{{achievements}}"
+      wx:key="id"
+      class="achievement-item {{item.unlocked ? 'unlocked' : 'locked'}} {{selectedAchievement.id === item.id ? 'selected' : ''}}"
+      bindtap="handleAchievementTap"
+      data-achievement="{{item}}"
+    >
+      <!-- Card -->
+      <view class="achievement-card {{item.unlocked ? 'card-unlocked' : 'card-locked'}}">
+        <!-- Glow effect for unlocked -->
+        <view wx:if="{{item.unlocked}}" class="glow-effect"></view>
+
+        <!-- Lock icon for locked -->
+        <view wx:if="{{!item.unlocked}}" class="lock-overlay">
+          <text class="lock-icon">🔒</text>
+        </view>
+
+        <!-- Icon -->
+        <view class="achievement-icon {{item.unlocked ? 'icon-unlocked' : 'icon-locked'}}">
+          <text>{{item.icon}}</text>
+        </view>
+
+        <!-- Name -->
+        <text class="achievement-name">{{item.name}}</text>
+
+        <!-- Progress bar -->
+        <view class="progress-container">
+          <view class="progress-bar">
+            <view
+              class="progress-fill {{item.unlocked ? 'progress-unlocked' : 'progress-locked'}}"
+              style="width: {{getProgressPercentage(item)}}%"
+            ></view>
+          </view>
+          <text class="progress-text" wx:if="{{!item.unlocked}}">
+            {{item.progress}}/{{item.maxProgress}}
+          </text>
+          <text class="progress-text unlocked" wx:if="{{item.unlocked}}">已解锁</text>
+        </view>
+
+        <!-- Unlocked date -->
+        <text class="unlocked-date" wx:if="{{item.unlocked && item.unlockedAt}}">
+          {{formatUnlockedDate(item.unlockedAt)}}
+        </text>
+
+        <!-- Share button -->
+        <view
+          class="share-btn {{item.unlocked ? 'share-active' : 'share-inactive'}}"
+          bindtap="handleShareAchievement"
+          data-achievement="{{item}}"
+        >
+          <text class="share-icon">📤</text>
+          <text class="share-text">分享</text>
+        </view>
+      </view>
+
+      <!-- Pulse animation for selected -->
+      <view wx:if="{{selectedAchievement.id === item.id && item.unlocked}}" class="pulse-ring"></view>
+    </view>
+  </view>
+
+  <!-- Selected Achievement Detail Modal -->
+  <view wx:if="{{selectedAchievement}}" class="detail-modal" bindtap="handleCloseDetail">
+    <view class="detail-content" catchtap="handlePreventBubble">
+      <view class="detail-header">
+        <view class="detail-icon {{selectedAchievement.unlocked ? 'icon-unlocked' : 'icon-locked'}}">
+          <text>{{selectedAchievement.icon}}</text>
+        </view>
+        <view class="detail-info">
+          <text class="detail-name">{{selectedAchievement.name}}</text>
+          <text class="detail-description">{{selectedAchievement.description}}</text>
+        </view>
+      </view>
+
+      <view class="detail-body">
+        <view class="detail-progress">
+          <text class="detail-label">进度</text>
+          <view class="detail-progress-bar">
+            <view
+              class="detail-progress-fill {{selectedAchievement.unlocked ? 'progress-unlocked' : 'progress-locked'}}"
+              style="width: {{getProgressPercentage(selectedAchievement)}}%"
+            ></view>
+          </view>
+          <text class="detail-progress-text">
+            {{selectedAchievement.progress}}/{{selectedAchievement.maxProgress}}
+          </text>
+        </view>
+
+        <view wx:if="{{selectedAchievement.unlocked}}" class="detail-unlocked-info">
+          <text class="detail-label">解锁时间</text>
+          <text class="detail-value">{{formatUnlockedDate(selectedAchievement.unlockedAt)}}</text>
+        </view>
+      </view>
+
+      <view class="detail-footer">
+        <button
+          class="detail-share-btn {{selectedAchievement.unlocked ? 'share-active' : 'share-inactive'}}"
+          open-type="share"
+          data-achievement="{{selectedAchievement}}"
+        >
+          <text>📤 分享成就</text>
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- Unlock Animation Overlay -->
+  <view wx:if="{{showUnlockAnimation}}" class="unlock-animation-overlay">
+    <view class="unlock-animation-content">
+      <view class="unlock-star">🌟</view>
+      <text class="unlock-text">成就解锁</text>
+      <text class="unlock-name">{{animationAchievementId}}</text>
+    </view>
+  </view>
+</view>

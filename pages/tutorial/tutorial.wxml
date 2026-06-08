@@ -1,0 +1,168 @@
+<!-- 飞行教学页面 -->
+<view class="tutorial-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text style="position: relative; left: -8rpx; top: 108rpx; color: #ffffff">←</text>
+    </view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 顶部进度指示器 -->
+  <view class="progress-header">
+    <view class="progress-bar-wrap">
+      <progress-bar progress="{{progressPercent}}" />
+    </view>
+    <view class="step-indicator">{{currentStep + 1}}/{{totalSteps}}</view>
+  </view>
+
+  <!-- 步骤标题 -->
+  <view class="step-title-wrap">
+    <text class="step-title">{{steps[currentStep].title}}</text>
+    <text class="step-subtitle">{{steps[currentStep].subtitle}}</text>
+  </view>
+  <!-- 主体内容区域 -->
+  <view class="content-area">
+    <!-- 步骤1：欢迎 -->
+    <view class="step-content {{currentStep === 0 ? 'active' : ''}}" wx:if="{{currentStep === 0}}">
+      <view class="welcome-section">
+        <view class="welcome-emblem">🛸</view>
+        <view class="welcome-title">SKYHIVE · 飞手训练营</view>
+        <view class="welcome-desc">
+          欢迎，新飞手。你即将踏上一段独特的旅程——在这个平台里，飞行不是冰冷的模拟，而是有故事、有选择、有情感的角色扮演。
+        </view>
+        <view class="welcome-divider"></view>
+        <view class="welcome-tagline">▸ 准备好进入剧情模式了吗？</view>
+      </view>
+    </view>
+
+    <!-- 步骤2：4 章节剧情 -->
+    <view class="step-content {{currentStep === 1 ? 'active' : ''}}" wx:if="{{currentStep === 1}}">
+      <view class="chapters-section">
+        <view class="section-intro">
+          <text class="section-eyebrow">// 剧情模式 ARC MODE</text>
+          <text class="section-headline">你的故事，由你选择</text>
+          <text class="section-subtext">SKYHIVE 提供 4 个递进章节，每章都有分支选项，你的选择会塑造后续剧情</text>
+        </view>
+        <view class="chapters-list">
+          <view class="chapter-item">
+            <view class="chapter-icon">🌅</view>
+            <view class="chapter-info">
+              <text class="chapter-no">CH.01</text>
+              <text class="chapter-title">黎明之约</text>
+              <text class="chapter-desc">第一次接触无人机飞行</text>
+            </view>
+          </view>
+          <view class="chapter-item">
+            <view class="chapter-icon">🌙</view>
+            <view class="chapter-info">
+              <text class="chapter-no">CH.02</text>
+              <text class="chapter-title">夜空挑战</text>
+              <text class="chapter-desc">夜间飞行，面对黑暗中的未知</text>
+            </view>
+          </view>
+          <view class="chapter-item">
+            <view class="chapter-icon">🏙️</view>
+            <view class="chapter-info">
+              <text class="chapter-no">CH.03</text>
+              <text class="chapter-title">城市速递</text>
+              <text class="chapter-desc">穿梭城市之间的配送任务</text>
+            </view>
+          </view>
+          <view class="chapter-item">
+            <view class="chapter-icon">⛈️</view>
+            <view class="chapter-info">
+              <text class="chapter-no">CH.04</text>
+              <text class="chapter-title">风暴来临</text>
+              <text class="chapter-desc">面对极端天气的紧急任务</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 步骤3：10 个飞行任务 -->
+    <view class="step-content {{currentStep === 2 ? 'active' : ''}}" wx:if="{{currentStep === 2}}">
+      <view class="tasks-section">
+        <view class="section-intro">
+          <text class="section-eyebrow">// 任务系统 MISSION</text>
+          <text class="section-headline">10 个具名飞行任务</text>
+          <text class="section-subtext">每完成一个任务，你都会得到一段由 AI 撰写的专属飞行故事</text>
+        </view>
+        <view class="tasks-list">
+          <view class="task-chip">📷 蓝眼泪海边夜拍</view>
+          <view class="task-chip">🌧️ 暴雨校园奶茶速递</view>
+          <view class="task-chip">🌸 樱花大道毕业跟拍</view>
+          <view class="task-chip">🌹 天台告白玫瑰空投</view>
+          <view class="task-chip">🎵 音乐节空中运镜</view>
+          <view class="task-chip">🍱 宿舍深夜外卖救援</view>
+          <view class="task-chip">🏛️ 博物馆夜间秘密导览</view>
+          <view class="task-chip">⛰️ 山谷露营物资空投</view>
+          <view class="task-chip">🌃 未来城市低空巡游</view>
+          <view class="task-chip">🐱 屋顶猫咪营救</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 步骤4：准备起飞 -->
+    <view class="step-content {{currentStep === 3 ? 'active' : ''}}" wx:if="{{currentStep === 3}}">
+      <view class="launch-section">
+        <view class="launch-eyebrow">▸ ALL SYSTEMS GO</view>
+        <view class="launch-title">飞手资格证已就绪</view>
+        <view class="launch-desc">完成本教程后，你将获得 4 枚飞手徽章，并解锁剧情模式的完整访问权限。</view>
+        <view class="launch-badges">
+          <view class="launch-badge">
+            <text class="launch-badge-emoji">🎓</text>
+            <text class="launch-badge-text">飞手资格证</text>
+          </view>
+          <view class="launch-badge">
+            <text class="launch-badge-emoji">🚀</text>
+            <text class="launch-badge-text">首飞徽章</text>
+          </view>
+          <view class="launch-badge">
+            <text class="launch-badge-emoji">🔑</text>
+            <text class="launch-badge-text">剧情钥匙</text>
+          </view>
+          <view class="launch-badge">
+            <text class="launch-badge-emoji">⚡</text>
+            <text class="launch-badge-text">续航之光</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-area">
+    <view class="badges-preview" wx:if="{{earnedBadges.length > 0}}">
+      <text class="badges-label">已获得徽章：</text>
+      <view class="badges-list">
+        <text class="badge-item" wx:for="{{earnedBadges}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <button class="nav-button {{!canProceed ? 'disabled' : ''}}" bindtap="handleNextStep">
+      {{currentStep === totalSteps - 1 ? '进入剧情 →' : '下一步'}}
+    </button>
+  </view>
+
+  <!-- 全部完成弹窗 -->
+  <view class="completion-modal {{showCompletion ? 'show' : ''}}">
+    <view class="modal-content">
+      <view class="completion-icon">🎓</view>
+      <text class="completion-title">飞手培训完成</text>
+      <text class="completion-desc">你已解锁剧情模式的全部 4 个章节。准备好进入你的无人机故事了吗？</text>
+
+      <view class="final-badges">
+        <text class="final-badges-title">获得徽章</text>
+        <view class="final-badges-list">
+          <view class="final-badge" wx:for="{{allBadges}}" wx:key="*this">
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <button class="start-button" bindtap="handleStartFlight">进入剧情模式 →</button>
+    </view>
+  </view>
+</view>

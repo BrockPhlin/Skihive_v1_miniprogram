@@ -1,25 +1,74 @@
+<!-- environment.wxml · 深空赛博风环境选择页 -->
 <view class="environment-page">
+  <view class="bg-orb bg-orb-primary" style="top:-100rpx; right:-80rpx; width:420rpx; height:420rpx;"></view>
+  <view class="bg-orb bg-orb-accent" style="bottom:200rpx; left:-100rpx; width:380rpx; height:380rpx; opacity:0.3;"></view>
+  <view class="bg-orb bg-orb-plasma" style="top:30%; left:40%; width:280rpx; height:280rpx; opacity:0.16;"></view>
+
+  <view class="hud-corner tl"></view>
+  <view class="hud-corner tr"></view>
+  <view class="hud-corner bl"></view>
+  <view class="hud-corner br"></view>
+
+  <!-- 顶部导航 -->
+  <view class="nav-bar page-enter">
+    <view class="nav-left">
+      <text class="nav-eyebrow text-eyebrow">// SCENE SELECT</text>
+      <text class="nav-title text-display">选择场景</text>
+    </view>
+    <view class="nav-records" bindtap="goToFlightRecords" hover-class="nav-records--active">
+      <text class="font-mono">▤ RECORDS</text>
+    </view>
+  </view>
+
+  <!-- 列表 -->
   <view class="content">
-    <text class="title">选择场景</text>
-    <view style="height: 40px;"></view>
+    <view class="list-eyebrow font-mono">
+      <view class="status-dot"></view>
+      <text>{{environments.length}} ENVIRONMENTS AVAILABLE</text>
+    </view>
+
     <view class="environment-list">
-      <view 
-        wx:for="{{environments}}" 
+      <view
+        wx:for="{{environments}}"
         wx:key="id"
-        class="environment-item {{selectedEnvironment == item.id ? 'selected' : ''}}"
+        class="env-item card {{selectedEnvironment == item.id ? 'selected' : ''}}"
         bindtap="handleEnvironmentSelect"
         data-id="{{item.id}}"
+        hover-class="env-item--active"
       >
-        <view class="environment-icon">{{item.icon}}</view>
-        <view class="environment-content">
-          <text class="environment-name">{{item.name}}</text>
-          <text class="environment-description">{{item.description}}</text>
+        <view class="env-glyph">
+          <text class="env-icon">{{item.icon}}</text>
+        </view>
+        <view class="env-content">
+          <view class="env-header">
+            <text class="env-name">{{item.name}}</text>
+            <view class="env-id font-mono">ENV-0{{item.id}}</view>
+          </view>
+          <text class="env-description">{{item.description}}</text>
+        </view>
+        <view class="env-check" wx:if="{{selectedEnvironment == item.id}}">
+          <text>◉</text>
+        </view>
+        <view class="env-arrow" wx:else>
+          <text>›</text>
         </view>
       </view>
     </view>
 
-    <button bindtap="handleNavigateToAssembly" class="nav-button">
-      开始装配
-    </button>
+    <view class="action-bar">
+      <text class="action-hint font-mono">
+        <text wx:if="{{selectedEnvironment}}">▸ READY TO DEPLOY</text>
+        <text wx:else>// AWAITING SELECTION</text>
+      </text>
+      <button
+        bindtap="handleNavigateToAssembly"
+        class="nav-button {{selectedEnvironment ? 'glow-pulse' : ''}}"
+        hover-class="nav-button--active"
+      >
+        <text class="btn-prefix font-mono">▶</text>
+        <text class="btn-label">INITIATE ASSEMBLY</text>
+        <text class="btn-suffix font-mono">_</text>
+      </button>
+    </view>
   </view>
 </view>

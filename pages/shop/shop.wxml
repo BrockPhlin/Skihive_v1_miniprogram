@@ -1,0 +1,96 @@
+<!-- shop.wxml -->
+<view class="shop-page">
+  <!-- 顶部导航 -->
+  <navigation-bar title="装备商店" color="#ffffff" background="rgba(0, 0, 0, 0.3)" />
+
+  <!-- 货币显示区域 -->
+  <view class="currency-section">
+    <view class="currency-display">
+      <text class="currency-icon">🪙</text>
+      <text class="currency-value">{{userCoins}}</text>
+    </view>
+    <view class="daily-bonus {{canClaimDaily ? 'claimable' : ''}}" bindtap="handleClaimDaily">
+      <text class="daily-icon">📅</text>
+      <text class="daily-text">{{canClaimDaily ? '领取每日奖励' : '已领取'}}</text>
+    </view>
+  </view>
+
+  <!-- 装备分类Tab -->
+  <scroll-view class="category-tabs" scroll-x enable-flex>
+    <view
+      wx:for="{{categories}}"
+      wx:key="id"
+      class="tab-item {{selectedCategory === item.id ? 'active' : ''}}"
+      bindtap="handleSelectCategory"
+      data-id="{{item.id}}"
+    >
+      <text class="tab-icon">{{item.icon}}</text>
+      <text class="tab-name">{{item.name}}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 装备网格 -->
+  <scroll-view class="equipment-grid-container" scroll-y>
+    <view class="equipment-grid">
+      <view
+        wx:for="{{filteredEquipments}}"
+        wx:key="id"
+        class="equipment-item"
+      >
+        <!-- 等级角标（右上） -->
+        <view class="rarity-badge rarity-{{item.rarity}}">
+          {{item.rarity === 'legendary' ? '传说' : item.rarity === 'epic' ? '史诗' : '普通'}}
+        </view>
+
+        <card
+          title="{{item.name}}"
+          subtitle="{{item.desc}}"
+          cover="{{item.cover}}"
+          radius="medium"
+          clickable
+          ext-class="equipment-card"
+        >
+          <view class="equipment-price" slot="footer">
+            <text class="price-icon">🪙</text>
+            <text class="price-value">{{item.price}}</text>
+            <button
+              wx:if="{{!item.owned}}"
+              type="primary"
+              size="small"
+              shape="pill"
+              ext-class="buy-btn"
+              bindtap="handleBuy"
+              data-id="{{item.id}}"
+            >
+              购买
+            </button>
+            <text wx:else class="owned-tag">已拥有</text>
+          </view>
+        </card>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 扭蛋区域 -->
+  <view class="gacha-section">
+    <view class="gacha-title">每日扭蛋</view>
+    <view class="gacha-machine {{isGachaSpinning ? 'spinning' : ''}}" bindtap="handleGacha">
+      <view class="gacha-outer">
+        <view class="gacha-inner">
+          <view class="gacha-ball"></view>
+        </view>
+      </view>
+      <text class="gacha-hint">{{isGachaSpinning ? '抽奖中...' : '点击抽奖 (100金币)'}}</text>
+    </view>
+    <view class="gacha-cost">
+      <text class="cost-icon">🪙</text>
+      <text class="cost-value">100</text>
+    </view>
+  </view>
+
+  <!-- 库存按钮 -->
+  <view class="inventory-btn" bindtap="handleShowInventory">
+    <text class="inventory-icon">📦</text>
+    <text class="inventory-text">库存 ({{ownedCount}})</text>
+  </view>
+</view>

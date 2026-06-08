@@ -2,17 +2,25 @@
   "pages": [
     "pages/index/index",
     "pages/login/login",
+    "pages/onboarding/onboarding",
     "pages/register/register",
-    "pages/environment/environment"
+    "pages/environment/environment",
+    "pages/task-card/task-card",
+    "pages/flight-records/flight-records",
+    "pages/analytics/analytics",
+    "pages/achievement/achievement",
+    "pages/shop/shop",
+    "pages/tutorial/tutorial"
   ],
   "subpackages": [
     {
       "root": "packageA",
       "pages": [
-        "pages/component-pick/component-pick",
         "pages/assembly/assembly",
-        "pages/evaluation/evaluation",
-        "pages/flying/flying"
+        "pages/flying/flying",
+        "pages/result/result",
+        "pages/share-poster/share-poster",
+        "pages/story/story"
       ]
     }
   ],
@@ -22,6 +30,5 @@
   },
   "style": "v2",
   "renderer": "webview",
-  "sitemapLocation": "sitemap.json",
-  "useAuthorizePage": true
+  "sitemapLocation": "sitemap.json"
 }

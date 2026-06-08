@@ -1,0 +1,24 @@
+<button
+  class="sk-button {{type}} {{size}} {{shape}} {{block ? 'block' : ''}} {{disabled ? 'disabled' : ''}} {{loading ? 'loading' : ''}} {{isPressed ? 'pressed' : ''}} {{plain ? 'plain' : ''}} {{extClass}}"
+  disabled="{{disabled || loading}}"
+  bindtap="onTap"
+  bindlongpress="onLongPress"
+>
+  <view class="sk-button-wrap">
+    <!-- Loading spinner -->
+    <view wx:if="{{loading}}" class="sk-button-loading">
+      <view class="spinner"></view>
+    </view>
+
+    <!-- Icon -->
+    <text wx:elif="{{icon}}" class="sk-button-icon">{{icon}}</text>
+
+    <!-- Content -->
+    <view class="sk-button-content">
+      <slot></slot>
+    </view>
+  </view>
+
+  <!-- Ripple effect -->
+  <view class="ripple" wx:if="{{!disabled && !loading}}"></view>
+</button>

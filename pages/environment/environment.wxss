@@ -1,78 +1,290 @@
-page {
-  height: 100vh;
-  background-color: #000000;
-}
+/* environment.wxss · 深空赛博风环境选择页 */
+
+page { background: var(--space); }
 
 .environment-page {
-  background-color: black;
-  width: 100%;
   min-height: 100vh;
-  height: 100vh;
+  background: var(--space);
+  color: var(--ink);
+  font-family: var(--font-cjk);
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 80rpx;
+}
+
+/* ==================== 顶部导航 ==================== */
+.nav-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 80rpx 40rpx 24rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.nav-eyebrow { margin-bottom: 4rpx; }
+
+.nav-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+
+.nav-records {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  font-size: 20rpx;
+  color: var(--cyan);
+  padding: 12rpx 22rpx;
+  background: rgba(92, 243, 255, 0.05);
+  border: 1rpx solid var(--line-bright);
+  border-radius: var(--r-md);
+  letter-spacing: 0.2em;
+  transition: all 0.2s ease-out;
+}
+.nav-records--active {
+  background: rgba(92, 243, 255, 0.14);
+  transform: scale(0.96);
+  box-shadow: 0 0 16rpx var(--cyan-glow);
+}
+
+/* ==================== 列表 ==================== */
+.content {
+  position: relative;
+  z-index: 10;
+  margin: 0 32rpx;
+  padding-top: 24rpx;
+}
+
+.list-eyebrow {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.content {
-  text-align: center;
-  width: 80%;
-}
-
-.title {
-  font-size: 24px;
-  color: white;
-  margin-bottom: 30px;
+  gap: 12rpx;
+  font-size: 20rpx;
+  color: var(--cyan);
+  letter-spacing: 0.3em;
+  margin-bottom: 20rpx;
+  padding: 0 4rpx;
 }
 
 .environment-list {
-  margin-bottom: 30px;
-}
-
-.environment-item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 15px;
-  margin-bottom: 15px;
-  background-color: rgba(34, 34, 34, 0.75);
-  border: 1px solid rgba(104, 104, 104, 0.48);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.environment-item.selected {
-  border-color: rgb(133, 94, 238);
-  background-color: rgba(133, 94, 238, 0.1);
-}
-
-.environment-icon {
-  font-size: 32px;
-  margin-right: 15px;
-}
-
-.environment-content {
+  margin-bottom: 36rpx;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 18rpx;
 }
 
-.environment-name {
-  font-size: 18px;
-  color: white;
+.env-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-left: 4rpx solid var(--line);
+  transition: all 0.25s ease-out;
+}
+.env-item::before {
+  content: '';
+  position: absolute;
+  top: 8rpx; right: 8rpx;
+  width: 12rpx; height: 12rpx;
+  border-top: 1rpx solid var(--line);
+  border-right: 1rpx solid var(--line);
+  opacity: 0.5;
+  transition: all 0.25s ease-out;
+}
+.env-item::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx; left: 8rpx;
+  width: 12rpx; height: 12rpx;
+  border-bottom: 1rpx solid var(--line);
+  border-left: 1rpx solid var(--line);
+  opacity: 0.5;
+  transition: all 0.25s ease-out;
 }
 
-.environment-description {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-top: 4px;
+.env-item--active { transform: scale(0.99); }
+
+.env-item.selected {
+  border-left-color: var(--gold);
+  border-color: var(--line-gold);
+  background: linear-gradient(135deg, rgba(255, 181, 71, 0.08) 0%, rgba(10, 13, 28, 0.85) 100%);
+  box-shadow:
+    0 0 0 1rpx var(--line-gold) inset,
+    0 0 32rpx var(--gold-glow);
 }
+.env-item.selected::before,
+.env-item.selected::after {
+  border-color: var(--gold);
+  opacity: 1;
+}
+
+.env-glyph {
+  width: 88rpx;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(92, 243, 255, 0.05);
+  border: 1rpx solid var(--line);
+  border-radius: var(--r-md);
+  margin-right: 20rpx;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.25s ease-out;
+}
+.env-item.selected .env-glyph {
+  background: rgba(255, 181, 71, 0.12);
+  border-color: var(--line-gold);
+  box-shadow: 0 0 16rpx var(--gold-glow);
+}
+
+.env-icon {
+  font-size: 40rpx;
+  filter: drop-shadow(0 0 8rpx rgba(92, 243, 255, 0.3));
+  transition: all 0.25s ease-out;
+}
+.env-item.selected .env-icon {
+  filter: drop-shadow(0 0 12rpx var(--gold-glow));
+}
+
+.env-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  min-width: 0;
+}
+
+.env-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.env-name {
+  font-family: var(--font-display);
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+}
+
+.env-id {
+  font-size: 18rpx;
+  color: var(--ink-faint);
+  letter-spacing: 0.2em;
+}
+.env-item.selected .env-id { color: var(--gold); }
+
+.env-description {
+  font-size: 22rpx;
+  color: var(--ink-dim);
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+.env-check {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gold);
+  color: #1a0f00;
+  border-radius: var(--r-md);
+  font-size: 28rpx;
+  margin-left: 16rpx;
+  box-shadow: 0 0 16rpx var(--gold-glow);
+  flex-shrink: 0;
+}
+
+.env-arrow {
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-mute);
+  font-size: 40rpx;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+}
+
+/* ==================== 底部 CTA ==================== */
+.action-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  padding: 0 4rpx;
+}
+
+.action-hint {
+  font-size: 20rpx;
+  color: var(--ink-mute);
+  letter-spacing: 0.3em;
+  text-align: center;
+  padding: 8rpx 0;
+  transition: color 0.2s ease-out;
+}
+.action-bar .action-hint text { color: var(--gold); text-shadow: 0 0 8rpx var(--gold-glow); }
 
 .nav-button {
-  padding: 12px 30px;
-  background-color: #855eee;
-  color: white;
-  border-radius: 25px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dim) 100%);
+  color: #1a0f00;
+  border: 2rpx solid var(--gold-bright);
+  border-radius: var(--r-md);
+  font-family: var(--font-mono);
+  font-size: 28rpx;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  box-shadow:
+    0 0 0 2rpx rgba(255, 181, 71, 0.15) inset,
+    0 8rpx 28rpx var(--gold-glow);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin: 0;
+  padding: 0;
 }
+.nav-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  background-size: 220% 100%;
+  animation: shimmer 2.4s linear infinite;
+  pointer-events: none;
+}
+.nav-button--active {
+  transform: scale(0.97);
+  box-shadow: 0 0 0 2rpx var(--gold-bright) inset, 0 0 20rpx var(--gold-glow);
+}
+.nav-button[disabled],
+.nav-button:not(.glow-pulse) {
+  background: rgba(92, 243, 255, 0.04);
+  color: var(--ink-mute);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.nav-button:not(.glow-pulse)::after { display: none; }
+
+.btn-prefix { font-size: 26rpx; }
+.btn-suffix { animation: blink 1s steps(1) infinite; }
+.btn-label { letter-spacing: 0.25em; }

@@ -1,0 +1,25 @@
+<view class="sk-particle-bg">
+  <!-- Gradient background -->
+  <view class="bg-gradient"></view>
+
+  <!-- Particles -->
+  <view class="particles-container">
+    <block wx:for="{{particles}}" wx:key="id">
+      <view
+        class="particle"
+        style="
+          left: {{item.x}}px;
+          top: {{item.y}}px;
+          width: {{item.size}}px;
+          height: {{item.size}}px;
+          opacity: {{item.opacity}};
+          transform: rotate({{item.angle}}deg);
+        "
+      ></view>
+    </block>
+  </view>
+
+  <!-- Optional glow orbs -->
+  <view class="glow-orb orb-1"></view>
+  <view class="glow-orb orb-2"></view>
+</view>

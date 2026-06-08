@@ -1,0 +1,15 @@
+.sk-animated-number {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+.prefix, .suffix {
+  opacity: 0.8;
+}
+
+.value {
+  display: inline-block;
+  transition: transform 0.1s ease-out;
+}

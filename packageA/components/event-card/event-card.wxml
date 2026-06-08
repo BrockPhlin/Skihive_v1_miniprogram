@@ -1,0 +1,60 @@
+<view class="event-modal" wx:if="{{visible && event}}">
+  <view class="modal-mask"></view>
+  <view class="event-card">
+    <!-- 顶部状态栏 -->
+    <view class="event-status-bar">
+      <view class="event-progress">事件 {{eventIndex}}/{{totalEvents}}</view>
+      <view class="battery-display {{battery < 30 ? 'battery-low' : ''}}">
+        <text class="battery-icon">🔋</text>
+        <text class="battery-value">{{battery}}%</text>
+      </view>
+    </view>
+
+    <!-- 事件类型标签 -->
+    <view class="event-type-tag" style="background-color: {{eventTypeInfo.color}}">
+      {{eventTypeInfo.icon}} {{eventTypeInfo.name}}
+    </view>
+
+    <!-- 事件标题 -->
+    <view class="event-title">{{event.title}}</view>
+
+    <!-- 事件描述 -->
+    <view class="event-desc">{{event.description}}</view>
+
+    <!-- 选择区域 -->
+    <view class="choices" wx:if="{{!showCustomInput}}">
+      <button
+        wx:for="{{event.choices}}"
+        wx:key="id"
+        class="choice-btn"
+        bindtap="onChoiceSelect"
+        data-id="{{item.id}}"
+      >
+        <view class="choice-text">{{item.text}}</view>
+        <view class="choice-desc">{{item.description}}</view>
+      </button>
+
+      <!-- 自定义选项入口 -->
+      <button class="choice-btn custom-btn" bindtap="onCustomToggle">
+        <view class="choice-text">💡 自由发挥</view>
+        <view class="choice-desc">输入你想做的事</view>
+      </button>
+    </view>
+
+    <!-- 自定义输入区域 -->
+    <view class="custom-input-area" wx:if="{{showCustomInput}}">
+      <input
+        class="custom-input"
+        placeholder="描述你想怎么做..."
+        value="{{customInput}}"
+        bindinput="onCustomInput"
+        maxlength="50"
+        focus="{{true}}"
+      />
+      <view class="custom-actions">
+        <button class="btn-cancel" bindtap="onCustomCancel">取消</button>
+        <button class="btn-confirm" bindtap="onCustomConfirm">确认</button>
+      </view>
+    </view>
+  </view>
+</view>

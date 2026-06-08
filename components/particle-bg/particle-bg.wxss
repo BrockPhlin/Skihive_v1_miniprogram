@@ -1,0 +1,68 @@
+.sk-particle-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(133, 94, 227, 0.4);
+  box-shadow: 0 0 10rpx rgba(133, 94, 227, 0.3);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60rpx);
+  opacity: 0.3;
+}
+
+.orb-1 {
+  width: 300rpx;
+  height: 300rpx;
+  background: radial-gradient(circle, rgba(133, 94, 238, 0.4) 0%, transparent 70%);
+  top: 10%;
+  left: 20%;
+  animation: floatOrb1 8s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 200rpx;
+  height: 200rpx;
+  background: radial-gradient(circle, rgba(0, 210, 211, 0.3) 0%, transparent 70%);
+  bottom: 20%;
+  right: 15%;
+  animation: floatOrb2 10s ease-in-out infinite;
+}
+
+@keyframes floatOrb1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30rpx, -30rpx); }
+}
+
+@keyframes floatOrb2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20rpx, 20rpx); }
+}

@@ -1,0 +1,209 @@
+<!-- onboarding.wxml · 首次启动产品介绍（4 张 CSS 海报 swiper） -->
+<view class="onboarding-page">
+  <swiper
+    class="onboarding-swiper"
+    current="{{currentIndex}}"
+    bindchange="onSwiperChange"
+    indicator-dots="{{false}}"
+    duration="400"
+    circular="{{false}}"
+  >
+    <!-- ============ SLIDE 1: 如果未来每人都有一台飞行器 ============ -->
+    <swiper-item class="onboarding-slide">
+      <view class="poster poster-1">
+        <view class="p1-room">
+            <view class="p1-window">
+              <view class="p1-stars"></view>
+              <view class="p1-city"></view>
+              <view class="p1-figure"></view>
+            </view>
+            <view class="p1-desk">
+              <view class="p1-cup">☕</view>
+              <view class="p1-book"></view>
+              <view class="p1-drone-drink">🛸</view>
+              <view class="p1-drone-cargo">🛸</view>
+              <view class="p1-drone-call">🛸</view>
+            </view>
+          </view>
+          <view class="p1-glow p1-glow-1"></view>
+          <view class="p1-glow p1-glow-2"></view>
+          <view class="p1-title">如果未来每人都有一台飞行器？</view>
+          <view class="p1-subtitle">未来的无人机，可能不只是会飞的相机。</view>
+        </view>
+    </swiper-item>
+
+    <!-- ============ SLIDE 2: 你会想造什么样的飞行器 ============ -->
+    <swiper-item class="onboarding-slide">
+      <view class="poster poster-2">
+        <view class="p2-label">// SCENARIO LIBRARY</view>
+        <view class="p2-cards">
+          <view class="p2-card p2-card-1">
+            <text class="p2-emoji">🎓</text>
+            <text class="p2-name">校园毕业跟拍</text>
+            <text class="p2-desc">记录青春，高光不掉队</text>
+          </view>
+          <view class="p2-card p2-card-2">
+            <text class="p2-emoji">🏃</text>
+            <text class="p2-name">夜跑跟随拍</text>
+            <text class="p2-desc">AI 跟随，越夜越动感</text>
+          </view>
+          <view class="p2-card p2-card-3">
+            <text class="p2-emoji">🌱</text>
+            <text class="p2-name">阳台浇花助手</text>
+            <text class="p2-desc">定时定点，植物更懂你</text>
+          </view>
+          <view class="p2-card p2-card-4">
+            <text class="p2-emoji">🎵</text>
+            <text class="p2-name">音乐节自拍</text>
+            <text class="p2-desc">一键升空，C 位就你</text>
+          </view>
+          <view class="p2-card p2-card-5">
+            <text class="p2-emoji">🛡️</text>
+            <text class="p2-name">宿舍救援任务</text>
+            <text class="p2-desc">深夜外卖 / 萌宠救援</text>
+          </view>
+        </view>
+        <view class="p2-title">你会想造一台什么样的飞行器？</view>
+        <view class="p2-subtitle">不同任务，需要不同飞行器。</view>
+      </view>
+    </swiper-item>
+
+    <!-- ============ SLIDE 3: 像搭积木一样创造 ============ -->
+    <swiper-item class="onboarding-slide">
+      <view class="poster poster-3">
+        <view class="p3-label">// CREATION FLOW</view>
+        <view class="p3-steps">
+          <view class="p3-step">
+            <view class="p3-num">01</view>
+            <view class="p3-info">
+              <text class="p3-name">选择任务</text>
+              <text class="p3-desc">接收你的创作任务</text>
+            </view>
+            <view class="p3-icon">📋</view>
+          </view>
+          <view class="p3-line"></view>
+            <view class="p3-step">
+              <view class="p3-num">02</view>
+              <view class="p3-info">
+                <text class="p3-name">创建机体</text>
+                <text class="p3-desc">生成你的专属机体</text>
+              </view>
+              <view class="p3-icon">🛸</view>
+            </view>
+            <view class="p3-line"></view>
+            <view class="p3-step">
+              <view class="p3-num">03</view>
+              <view class="p3-info">
+                <text class="p3-name">更换组件</text>
+                <text class="p3-desc">自由搭配，随心替换</text>
+              </view>
+              <view class="p3-icon">🔧</view>
+            </view>
+            <view class="p3-line"></view>
+            <view class="p3-step">
+              <view class="p3-num">04</view>
+              <view class="p3-info">
+                <text class="p3-name">外观定制</text>
+                <text class="p3-desc">涂装配色，彰显个性</text>
+              </view>
+              <view class="p3-icon">🎨</view>
+            </view>
+            <view class="p3-line"></view>
+            <view class="p3-step">
+              <view class="p3-num">05</view>
+              <view class="p3-info">
+                <text class="p3-name">测试飞行</text>
+                <text class="p3-desc">试飞调校，优化性能</text>
+              </view>
+              <view class="p3-icon">🎯</view>
+            </view>
+            <view class="p3-line"></view>
+            <view class="p3-step">
+              <view class="p3-num">06</view>
+              <view class="p3-info">
+                <text class="p3-name">生成作品</text>
+                <text class="p3-desc">完成创作，分享成果</text>
+              </view>
+              <view class="p3-icon">⭐</view>
+            </view>
+          </view>
+          <view class="p3-title">像搭积木一样，创造你的飞行器</view>
+          <view class="p3-subtitle">选任务 → 换组件 → 测试飞行</view>
+        </view>
+    </swiper-item>
+
+    <!-- ============ SLIDE 4: 今天你想完成什么任务 ============ -->
+    <swiper-item class="onboarding-slide">
+      <view class="poster poster-4">
+        <view class="p4-tasks">
+            <view class="p4-task p4-task-1">
+              <text class="p4-emoji">🧋</text>
+              <view class="p4-info">
+                <text class="p4-name">暴雨校园奶茶速递</text>
+                <text class="p4-desc">暴雨穿梭校园，准时送达温暖</text>
+              </view>
+              <view class="p4-drone">🛸</view>
+            </view>
+            <view class="p4-task p4-task-2">
+              <text class="p4-emoji">🎵</text>
+              <view class="p4-info">
+                <text class="p4-name">音乐节空中运镜</text>
+                <text class="p4-desc">在音乐节上空自由飞行</text>
+              </view>
+              <view class="p4-drone">🛸</view>
+            </view>
+            <view class="p4-task p4-task-3">
+              <text class="p4-emoji">🌙</text>
+              <view class="p4-info">
+                <text class="p4-name">夜跑跟拍</text>
+                <text class="p4-desc">陪伴夜跑时光</text>
+              </view>
+              <view class="p4-drone">🛸</view>
+            </view>
+            <view class="p4-task p4-task-4">
+              <text class="p4-emoji">🐱</text>
+              <view class="p4-info">
+                <text class="p4-name">猫咪营救</text>
+                <text class="p4-desc">发现高处的喵星人</text>
+              </view>
+              <view class="p4-drone">🛸</view>
+            </view>
+            <view class="p4-task p4-task-5">
+              <text class="p4-emoji">🌱</text>
+              <view class="p4-info">
+                <text class="p4-name">阳台浇花</text>
+                <text class="p4-desc">定时定点，空中浇灌</text>
+              </view>
+              <view class="p4-drone">🛸</view>
+            </view>
+          </view>
+          <view class="p4-title">今天，你想完成什么飞行任务？</view>
+          <view class="p4-subtitle">每一次选择，都会创造一台不同的飞行器。</view>
+        </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 底部圆点指示器 -->
+  <view class="dots">
+    <view
+      wx:for="{{slides}}"
+      wx:key="id"
+      class="dot {{currentIndex === index ? 'dot-active' : ''}}"
+    ></view>
+  </view>
+
+  <!-- 跳过 / 进入按钮 -->
+  <view class="bottom-bar">
+    <block wx:if="{{currentIndex === slides.length - 1}}">
+      <button class="enter-btn" bindtap="handleEnter" hover-class="enter-btn--active">
+        <text class="enter-prefix font-mono">▶</text>
+        <text class="enter-label">进入 SKYHIVE</text>
+      </button>
+    </block>
+    <block wx:else>
+      <view class="skip-btn" bindtap="handleSkip" hover-class="skip-btn--active">
+        <text class="font-mono">跳过 ›</text>
+      </view>
+    </block>
+  </view>
+</view>

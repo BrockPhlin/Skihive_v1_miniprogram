@@ -1,0 +1,5 @@
+<view class="sk-animated-number" style="font-size: {{size}}; color: {{color}}; font-weight: {{bold ? '700' : '400'}};">
+  <text class="prefix">{{prefix}}</text>
+  <text class="value">{{formatNumber(displayValue)}}</text>
+  <text class="suffix">{{suffix}}</text>
+</view>

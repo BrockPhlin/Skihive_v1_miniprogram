@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "飞行教学",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "progress-bar": "/components/progress-bar/progress-bar"
+  }
+}

@@ -1,14 +1,22 @@
-// login.js 最终稳定版
+// login.js
+const app = getApp()
+
 Page({
   data: {
     email: '',
     password: '',
     isLoading: false,
-    agreed: false
+    agreed: false,
+    showPassword: false,
+    focusedField: ''
   },
 
-  onLoad() {
-    // 不做任何动画
+  onFocusEmail() { this.setData({ focusedField: 'email' }) },
+  onFocusPassword() { this.setData({ focusedField: 'password' }) },
+  onBlurField() { this.setData({ focusedField: '' }) },
+
+  togglePassword() {
+    this.setData({ showPassword: !this.data.showPassword })
   },
 
   handleEmailInput(e) {
@@ -30,22 +38,48 @@ Page({
   },
 
   handleSubmit(e) {
-    if (!this.data.agreed) {
+    const { email, password, agreed } = this.data
+
+    if (!agreed) {
       wx.showToast({
         title: '请先阅读并同意协议',
         icon: 'none'
       })
       return
     }
-    
-    this.setData({ isLoading: true })
-    
-    setTimeout(() => {
-      this.setData({ isLoading: false })
-      wx.navigateTo({
-        url: '/pages/environment/environment'
+
+    if (!email || !password) {
+      wx.showToast({
+        title: '请输入邮箱和密码',
+        icon: 'none'
       })
-    }, 1000)
+      return
+    }
+
+    this.setData({ isLoading: true })
+
+    const result = app.login(email, password)
+
+    this.setData({ isLoading: false })
+
+    if (result.success) {
+      wx.showToast({
+        title: result.isAdmin ? '管理员登录成功' : '登录成功',
+        icon: 'success',
+        duration: 1500
+      })
+
+      setTimeout(() => {
+        wx.reLaunch({
+          url: '/pages/index/index'
+        })
+      }, 1500)
+    } else {
+      wx.showToast({
+        title: result.message,
+        icon: 'none'
+      })
+    }
   },
 
   handleRegister() {
@@ -62,59 +96,36 @@ Page({
       })
       return
     }
-    
+
     // 必须先获取用户信息，这是点击事件的第一行代码
     wx.getUserProfile({
       desc: '用于完善用户资料',
       success: (userInfoRes) => {
         console.log('获取用户信息成功:', userInfoRes.userInfo)
-        
+
         this.setData({ isLoading: true })
-        
+
         // 再调用wx.login获取code
         wx.login({
           success: (res) => {
             if (res.code) {
               console.log('获取登录凭证code:', res.code)
-              
-              // 将code和用户信息保存到全局数据
-              const app = getApp()
-              app.globalData.userInfo = userInfoRes.userInfo
-              
-              // 这里应该调用后端API进行登录验证
-              // wx.request({
-              //   url: app.globalData.config.apiBaseUrl + '/login',
-              //   method: 'POST',
-              //   data: {
-              //     code: res.code,
-              //     userInfo: userInfoRes.userInfo
-              //   },
-              //   success: (apiRes) => {
-              //     if (apiRes.data.success) {
-              //       // 登录成功，保存token等信息
-              //       wx.setStorageSync('token', apiRes.data.token)
-              //     }
-              //   }
-              // })
-              
-              // 模拟登录成功流程
+
               setTimeout(() => {
                 this.setData({ isLoading: false })
-                
-                // 保存登录状态
-                wx.setStorageSync('isLoggedIn', true)
-                wx.setStorageSync('userInfo', userInfoRes.userInfo)
-                
+
+                const app = getApp()
+                app.setWechatUser(userInfoRes.userInfo)
+
                 wx.showToast({
                   title: '微信登录成功',
                   icon: 'success',
                   duration: 1500
                 })
-                
-                // 延迟跳转，让用户看到成功提示
+
                 setTimeout(() => {
-                  wx.navigateTo({
-                    url: '/pages/environment/environment'
+                  wx.reLaunch({
+                    url: '/pages/index/index'
                   })
                 }, 1500)
               }, 1000)

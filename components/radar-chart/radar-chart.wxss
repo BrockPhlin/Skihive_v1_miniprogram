@@ -1,0 +1,7 @@
+.sk-radar-chart {
+  position: relative;
+}
+
+.radar-canvas {
+  display: block;
+}

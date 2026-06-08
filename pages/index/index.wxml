@@ -1,18 +1,125 @@
-<!--index.wxml-->
+<!-- index.wxml · 深空赛博风首页 -->
 <view class="index-page">
-  <view class="content">
-    <image src="/assets/svg/logo.svg" mode="aspectFit" class="logo-image"></image>
-    <text class="subtitle">欢迎来到低空装配与仿真平台</text>
+  <particle-bg count="40" />
 
-    <view style="height: 60px;"></view>
-    
-    <view class="buttons">
-      <button class="btn btn-primary" bindtap="handleLogin">
-        登录
-      </button>
-      <button class="btn btn-secondary" bindtap="handleRegister">
-        注册
+  <!-- 背景光晕 -->
+  <view class="bg-orb bg-orb-primary" style="top:-100rpx; left:-80rpx; width:480rpx; height:480rpx;"></view>
+  <view class="bg-orb bg-orb-accent" style="bottom:200rpx; right:-120rpx; width:400rpx; height:400rpx;"></view>
+  <view class="bg-orb bg-orb-plasma" style="top:40%; left:30%; width:300rpx; height:300rpx; opacity:0.18;"></view>
+
+  <!-- HUD 四角 -->
+  <view class="hud-corner tl"></view>
+  <view class="hud-corner tr"></view>
+  <view class="hud-corner bl"></view>
+  <view class="hud-corner br"></view>
+
+  <!-- 顶部导航 -->
+  <view class="nav-bar page-enter" style="position: relative; left: 0rpx; top: 56rpx">
+    <view class="nav-logo-area">
+      <view class="nav-eyebrow">
+        <view class="status-dot cyan"></view>
+        <text class="nav-eyebrow-text">SYSTEM ONLINE</text>
+      </view>
+      <image src="/assets/svg/logo.svg" mode="aspectFit" class="nav-logo"></image>
+      <view class="nav-subtitle">低空装配与仿真平台 // V1.1</view>
+    </view>
+    <view class="nav-actions">
+      <view class="nav-icon-btn" bindtap="handleAnalytics" wx:if="{{isLoggedIn}}" hover-class="nav-icon-btn--active">
+        <text>📊</text>
+      </view>
+      <view class="nav-icon-btn" bindtap="handleAchievement" wx:if="{{isLoggedIn}}" hover-class="nav-icon-btn--active">
+        <text>🏆</text>
+      </view>
+      <view class="nav-icon-btn" bindtap="handleShop" wx:if="{{isLoggedIn}}" hover-class="nav-icon-btn--active">
+        <text>🛒</text>
+      </view>
+      <view class="nav-btn" bindtap="handleLogout" wx:if="{{isLoggedIn}}" hover-class="nav-btn--active">SIGNOUT</view>
+    </view>
+  </view>
+
+  <!-- 主内容区 -->
+  <view class="main-content">
+    <!-- 欢迎卡片 -->
+    <view class="welcome-card card card-strip gold card-stagger" wx:if="{{isLoggedIn && userInfo}}" style="position: relative; left: 0rpx; top: 35rpx">
+      <view class="welcome-header">
+        <text class="welcome-eyebrow text-eyebrow">// PILOT ID</text>
+        <text class="welcome-text">欢迎回来，</text>
+        <text class="welcome-nickname text-num">{{userInfo.nickname || userInfo.email}}</text>
+      </view>
+      <view class="welcome-stats">
+        <view class="stat-item">
+          <text class="stat-value text-num text-gold">{{flightCount}}</text>
+          <text class="stat-label">FLIGHTS</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value text-num text-cyan">{{totalFlights}}</text>
+          <text class="stat-label">DURATION</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 任务区 -->
+    <view class="task-section card-stagger" style="height: 364rpx; display: block; box-sizing: border-box">
+      <text class="section-eyebrow" style="position: relative; left: -2rpx; top: 102rpx">// MISSION 01</text>
+      <view class="task-title text-display" style="position: relative; left: -2rpx; top: 121rpx">今日飞行任务</view>
+      <view class="task-subtitle" style="position: relative; left: 0rpx; top: 214rpx">SELECT YOUR DAILY CHALLENGE</view>
+
+      <view class="tutorial-hint" bindtap="handleTutorial" wx:if="{{isLoggedIn}}" hover-class="tutorial-hint--active" style="height: -83rpx; display: ; box-sizing: ; left: -2rpx; top: 435rpx; position: relative">
+        <text class="hint-icon">🎓</text>
+        <text class="hint-text font-mono">NEW PILOT? START TUTORIAL</text>
+        <text class="hint-arrow">›</text>
+      </view>
+
+      <button class="start-btn glow-pulse" bindtap="handleStartTask" hover-class="start-btn--active" style="position: relative; left: 0rpx; top: 175rpx">
+        <text class="btn-prefix font-mono">▶</text>
+        <text class="btn-label">LAUNCH MISSION</text>
+        <text class="btn-suffix font-mono">_</text>
       </button>
     </view>
+
+    <!-- 剧情模式 -->
+    <view class="story-section card card-strip plasma card-stagger" bindtap="handleStoryMode" wx:if="{{isLoggedIn}}" hover-class="card--active" style="position: relative; left: 0rpx; top: 314rpx">
+      <view class="story-badge badge-gold">NEW</view>
+      <view class="story-info">
+        <text class="section-eyebrow">// ARC MODE</text>
+        <text class="story-title">剧情模式</text>
+        <text class="story-desc">MULTI-CHAPTER FLIGHT ADVENTURE</text>
+      </view>
+      <text class="story-arrow">›</text>
+    </view>
+
+    <!-- 底部操作 -->
+    <view class="bottom-actions card-stagger">
+      <view class="action-item" bindtap="handleFlightRecords" hover-class="action-item--active">
+        <view class="action-icon-frame">
+          <text class="action-icon">📋</text>
+        </view>
+        <text class="action-text font-mono">RECORDS</text>
+      </view>
+      <view class="action-item" bindtap="handleAnalytics" wx:if="{{!isLoggedIn}}" hover-class="action-item--active">
+        <view class="action-icon-frame">
+          <text class="action-icon">📊</text>
+        </view>
+        <text class="action-text font-mono">STATS</text>
+      </view>
+      <view class="action-item" bindtap="handleLogin" wx:if="{{!isLoggedIn}}" hover-class="action-item--active">
+        <view class="action-icon-frame">
+          <text class="action-icon">👤</text>
+        </view>
+        <text class="action-text font-mono">LOGIN</text>
+      </view>
+      <view class="action-item" bindtap="handleRegister" wx:if="{{!isLoggedIn}}" hover-class="action-item--active">
+        <view class="action-icon-frame">
+          <text class="action-icon">📝</text>
+        </view>
+        <text class="action-text font-mono">REGISTER</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info font-mono">
+    <text>v1.1.0 · SKIHIVE</text>
   </view>
 </view>

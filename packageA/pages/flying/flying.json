@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "飞行页面",
-  "navigationStyle": "custom"
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "event-card": "/packageA/components/event-card/event-card"
+  }
 }

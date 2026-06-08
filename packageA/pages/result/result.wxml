@@ -1,0 +1,84 @@
+<view class="result-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goHome" style="position: relative; left: -8rpx; top: 47rpx">←</view>
+    <view class="nav-title" style="position: relative; left: 11rpx; top: 50rpx">飞行报告</view>
+  </view>
+
+  <!-- 提前结束警告 -->
+  <view class="early-end-warning" wx:if="{{earlyEnd}}">
+    <view class="warning-icon">⚠️</view>
+    <view class="warning-text">{{earlyEndReason}}</view>
+    <view class="warning-sub">剩余电量: {{finalBattery}}%</view>
+  </view>
+
+  <!-- 飞行结果 -->
+  <view class="flight-outcome" wx:if="{{flightSuccess !== undefined}}">
+    <view class="outcome-icon">{{flightSuccess ? '🎉' : '💥'}}</view>
+    <view class="outcome-text">{{flightSuccess ? '任务成功' : '任务失败'}}</view>
+  </view>
+
+  <!-- A. 飞行器作品展示 -->
+  <view class="drone-showcase">
+    <view class="showcase-label">你的飞行器作品</view>
+    <view class="drone-preview">
+      <image class="drone-image" src="{{droneConfig.imageUrl}}" mode="aspectFit" wx:if="{{droneConfig.imageUrl}}"></image>
+      <text class="drone-icon" wx:else>🛸</text>
+    </view>
+    <view class="drone-info">
+      <view class="drone-name">{{droneConfig.body || '自定义飞行器'}}</view>
+      <view class="drone-color">{{droneConfig.color || ''}}</view>
+    </view>
+    <view class="task-tag" wx:if="{{task}}">{{task.name}}</view>
+  </view>
+
+  <!-- C. 趣味剧情文案 -->
+  <view class="story-section">
+    <view class="story-title">飞行故事</view>
+    <view class="story-text">{{storyText}}</view>
+  </view>
+
+  <!-- 事件故事（如果有） -->
+  <view class="event-story-section" wx:if="{{eventCount > 0}}">
+    <view class="event-story-title">✈️ 事件回顾 ({{eventCount}}次)</view>
+    <view class="event-story-content">{{eventStory}}</view>
+    <view class="event-score-bonus">事件加分: +{{eventScoreBonus}}</view>
+  </view>
+
+  <!-- D. 飞手人格 -->
+  <view class="personality-section">
+    <view class="personality-label">你的飞手人格是</view>
+    <view class="personality-name">{{personality}}</view>
+    <view class="personality-desc">{{personalityDesc}}</view>
+  </view>
+
+  <!-- 性能评分 -->
+  <view class="score-section">
+    <view class="score-item">
+      <view class="score-label">续航</view>
+      <view class="score-value">{{stats.duration || 0}}</view>
+    </view>
+    <view class="score-item">
+      <view class="score-label">稳定</view>
+      <view class="score-value">{{stats.stability || 0}}</view>
+    </view>
+    <view class="score-item">
+      <view class="score-label">趣味</view>
+      <view class="score-value">{{stats.fun || 0}}</view>
+    </view>
+    <view class="score-item score-item-highlight">
+      <view class="score-label">综合</view>
+      <view class="score-value">{{totalScore}}</view>
+    </view>
+  </view>
+
+  <!-- 底部按钮 -->
+  <view class="bottom-actions">
+    <button class="btn-share" bindtap="goSharePoster">
+      生成分享海报
+    </button>
+    <button class="btn-home" bindtap="goHome">
+      返回首页
+    </button>
+  </view>
+</view>

@@ -19,5 +19,8 @@
     "ignoreDevUnusedFiles": false
   },
   "libVersion": "3.15.0",
-  "condition": {}
+  "condition": {},
+  "defineConstants": {
+    "DEEPSEEK_API_KEY": "\"sk-b209dca5ace54be9b29668609e2f1e95\""
+  }
 }

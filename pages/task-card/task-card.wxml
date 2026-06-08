@@ -1,0 +1,30 @@
+<view class="task-card-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text style="position: relative; left: -8rpx; top: 108rpx; color: #ffffff">←</text>
+    </view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <view class="tip-text">选择一个任务开始创作</view>
+
+  <!-- 2栏展示全部10个任务 -->
+  <view class="task-grid">
+    <view
+      class="task-item {{selectedTask && selectedTask.id === item.id ? 'selected' : ''}}"
+      wx:for="{{tasks}}"
+      wx:key="id"
+      bindtap="selectTask"
+      data-id="{{item.id}}"
+    >
+      <image class="task-image" src="{{item.image}}" mode="aspectFill" style="height: 335rpx; display: block; box-sizing: border-box"></image>
+      <view class="task-name">{{item.name}}</view>
+    </view>
+  </view>
+
+  <!-- 确认按钮 -->
+  <view class="bottom-bar">
+    <button class="btn-primary" bindtap="confirmTask">开始创作</button>
+  </view>
+</view>

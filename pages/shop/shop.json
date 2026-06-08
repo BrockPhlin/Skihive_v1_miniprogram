@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "navigation-bar": "/components/navigation-bar/navigation-bar",
+    "card": "/components/card/card",
+    "button": "/components/button/button",
+    "animated-number": "/components/animated-number/animated-number",
+    "progress-bar": "/components/progress-bar/progress-bar"
+  }
+}

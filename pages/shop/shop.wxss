@@ -1,0 +1,333 @@
+/* shop.wxss - 装备商店页面样式 */
+
+/* ==================== Page Container ==================== */
+.shop-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding-bottom: 200rpx;
+}
+
+/* ==================== Currency Section ==================== */
+.currency-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 40rpx;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.currency-display {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.currency-icon {
+  font-size: 48rpx;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.currency-display .sk-animated-number {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 20rpx rgba(255, 215, 0, 0.5);
+}
+
+.currency-value {
+  font-size: 48rpx;
+  color: #ffd700;
+  font-weight: 700;
+  text-shadow: 0 0 20rpx rgba(255, 215, 0, 0.5);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== Daily Bonus ==================== */
+.daily-bonus {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 24rpx;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30rpx;
+  transition: all 0.3s ease;
+}
+
+.daily-bonus.claimable {
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20rpx rgba(133, 94, 227, 0.5); }
+  50% { box-shadow: 0 0 40rpx rgba(133, 94, 227, 0.8); }
+}
+
+.daily-icon {
+  font-size: 28rpx;
+}
+
+.daily-text {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.daily-bonus.claimable .daily-text {
+  color: #ffffff;
+}
+
+/* ==================== Category Tabs ==================== */
+.category-tabs {
+  display: flex;
+  white-space: nowrap;
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16rpx 28rpx;
+  margin: 0 6rpx;
+  border-radius: 20rpx;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  min-width: 110rpx;
+  flex-shrink: 0;
+}
+
+.tab-item.active {
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+  box-shadow: 0 4rpx 20rpx rgba(133, 94, 227, 0.4);
+}
+
+.tab-icon {
+  font-size: 36rpx;
+  margin-bottom: 8rpx;
+}
+
+.tab-name {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+.tab-item.active .tab-name {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==================== Equipment Grid ==================== */
+.equipment-grid-container {
+  height: calc(100vh - 500rpx);
+  padding: 20rpx;
+}
+
+.equipment-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.equipment-item {
+  width: 48%;
+  margin-bottom: 20rpx;
+  position: relative;
+}
+
+/* 等级角标（右上） */
+.rarity-badge {
+  position: absolute;
+  top: 12rpx;
+  right: 12rpx;
+  z-index: 5;
+  padding: 6rpx 16rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 4rpx 0 0 4rpx;
+  color: #ffffff;
+  text-shadow: 0 1rpx 2rpx rgba(0, 0, 0, 0.4);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12rpx) 100%, 0 100%);
+}
+.rarity-badge.rarity-common {
+  background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+}
+.rarity-badge.rarity-epic {
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+}
+.rarity-badge.rarity-legendary {
+  background: linear-gradient(135deg, #ffb547 0%, #c9892c 100%);
+  color: #1a0f00;
+  text-shadow: none;
+}
+
+/* ==================== Equipment Card ==================== */
+.equipment-card {
+  background: rgba(22, 33, 62, 0.9) !important;
+}
+
+.equipment-price {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.price-icon {
+  font-size: 28rpx;
+}
+
+.price-value {
+  font-size: 28rpx;
+  color: #ffd700;
+  font-weight: bold;
+  flex: 1;
+}
+
+.buy-btn {
+  animation: buyPulse 2s ease-in-out infinite;
+}
+
+@keyframes buyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.owned-tag {
+  font-size: 24rpx;
+  color: #22c55e;
+  font-weight: 600;
+}
+
+/* ==================== Gacha Section ==================== */
+.gacha-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 30%);
+}
+
+.gacha-title {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20rpx;
+}
+
+.gacha-machine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 30rpx;
+  background: linear-gradient(145deg, rgba(30, 45, 80, 0.9), rgba(22, 33, 62, 0.8));
+  border-radius: 30rpx;
+  border: 2rpx solid rgba(133, 94, 227, 0.3);
+}
+
+.gacha-outer {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #855ee3, #6c4bd4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 40rpx rgba(133, 94, 227, 0.4);
+  transition: all 0.3s ease;
+}
+
+.gacha-inner {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #1a1a2e, #0f3460);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.gacha-ball {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffd700, #ffaa00);
+  box-shadow: 0 0 30rpx rgba(255, 215, 0, 0.6);
+}
+
+.gacha-machine.spinning .gacha-outer {
+  animation: spin 0.5s linear infinite;
+}
+
+.gacha-machine.spinning .gacha-inner {
+  animation: spin 0.3s linear infinite reverse;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.gacha-hint {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.gacha-cost {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.cost-icon {
+  font-size: 24rpx;
+}
+
+.cost-value {
+  font-size: 24rpx;
+  color: #ffd700;
+  font-weight: bold;
+}
+
+/* ==================== Inventory Button ==================== */
+.inventory-btn {
+  position: fixed;
+  bottom: 240rpx;
+  right: 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 28rpx;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  border-radius: 50rpx;
+  box-shadow: 0 4rpx 20rpx rgba(34, 197, 94, 0.4);
+  z-index: 100;
+}
+
+.inventory-icon {
+  font-size: 28rpx;
+}
+
+.inventory-text {
+  font-size: 24rpx;
+  color: #ffffff;
+  font-weight: 600;
+}

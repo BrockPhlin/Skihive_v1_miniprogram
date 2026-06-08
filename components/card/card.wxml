@@ -1,0 +1,30 @@
+<view
+  class="sk-card {{clickable ? 'clickable' : ''}} {{selected ? 'selected' : ''}} {{bordered ? 'bordered' : ''}} radius-{{radius}} {{isPressed ? 'pressed' : ''}} {{extClass}}"
+  bindtap="onTap"
+  bindlongpress="onLongPress"
+>
+  <!-- Cover Image -->
+  <image wx:if="{{cover}}" class="sk-card-cover" src="{{cover}}" mode="aspectFill" />
+
+  <!-- Tag -->
+  <view wx:if="{{tag}}" class="sk-card-tag tag-{{tagType}}">{{tag}}</view>
+
+  <!-- Content -->
+  <view class="sk-card-content">
+    <view wx:if="{{title}}" class="sk-card-header">
+      <text class="sk-card-title">{{title}}</text>
+      <text wx:if="{{subtitle}}" class="sk-card-subtitle">{{subtitle}}</text>
+    </view>
+    <view class="sk-card-body">
+      <slot></slot>
+    </view>
+  </view>
+
+  <!-- Selected Indicator -->
+  <view wx:if="{{selected}}" class="sk-card-selected-indicator">
+    <text class="icon">✓</text>
+  </view>
+
+  <!-- Animated Border -->
+  <view class="sk-card-border-animated" wx:if="{{selected}}"></view>
+</view>

@@ -1,0 +1,79 @@
+<view class="poster-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack" style="position: relative; left: -8rpx; top: 47rpx">←</view>
+    <view class="nav-title" style="position: relative; left: 11rpx; top: 50rpx">分享海报</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 海报预览区 (540x900 比例，与Canvas绘制一致) -->
+  <view class="poster-container">
+    <view class="poster">
+      <!-- 顶部: 飞行器展示 -->
+      <view class="poster-top">
+        <view class="drone-showcase">
+          <image class="drone-image" src="{{droneConfig.imageUrl}}" mode="aspectFit" wx:if="{{droneConfig.imageUrl}}"></image>
+          <view class="drone-icon" wx:else>🛸</view>
+          <view class="drone-name">{{droneConfig.body || '自定义飞行器'}}</view>
+          <view class="drone-color" wx:if="{{droneConfig.color}}">{{droneConfig.color}}</view>
+        </view>
+      </view>
+
+      <!-- 中部: 任务图片和名称 -->
+      <view class="poster-middle">
+        <image class="poster-task-img" src="{{task.image}}" mode="aspectFill" wx:if="{{task.image}}"></image>
+        <view class="task-showcase">
+          <text class="task-name">{{task.name || '未知任务'}}</text>
+        </view>
+      </view>
+
+      <!-- 底部: 飞手人格 -->
+      <view class="poster-bottom">
+        <view class="personality-tag">
+          <view class="personality-name">{{personality}}</view>
+          <view class="personality-sub">{{personalityDesc}}</view>
+        </view>
+
+        <view class="stats-row">
+          <view class="stat">
+            <view class="stat-val">{{stats.duration || 0}}</view>
+            <view class="stat-lbl">续航</view>
+          </view>
+          <view class="stat">
+            <view class="stat-val">{{stats.stability || 0}}</view>
+            <view class="stat-lbl">稳定</view>
+          </view>
+          <view class="stat">
+            <view class="stat-val">{{stats.fun || 0}}</view>
+            <view class="stat-lbl">趣味</view>
+          </view>
+          <view class="stat stat-highlight">
+            <view class="stat-val">{{totalScore}}</view>
+            <view class="stat-lbl">综合</view>
+          </view>
+        </view>
+
+        <view class="brand">SkiHive 低空装配与仿真平台</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 隐藏 canvas 用于生成海报 -->
+  <canvas type="2d" id="posterCanvas" class="poster-canvas"></canvas>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="btn-save" bindtap="savePoster" loading="{{saving}}">
+      {{saving ? '保存中...' : '保存海报'}}
+    </button>
+    <button class="btn-share" open-type="share" plain="true">
+      转发给朋友
+    </button>
+    <button class="btn-share" open-type="shareTimeline" plain="true">
+      分享到朋友圈
+    </button>
+    <button class="btn-home" bindtap="goHome">
+      返回首页
+    </button>
+  </view>
+</view>

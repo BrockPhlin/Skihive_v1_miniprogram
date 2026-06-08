@@ -1,0 +1,16 @@
+<view class="sk-progress" style="height: {{height}}; border-radius: {{radius}};">
+  <!-- Background -->
+  <view wx:if="{{showBackground}}" class="sk-progress-bg"></view>
+
+  <!-- Fill -->
+  <view
+    class="sk-progress-fill {{color}} {{shimmer ? 'shimmer' : ''}}"
+    style="width: {{displayValue}}%; border-radius: {{radius}};"
+  >
+    <!-- Shimmer effect overlay -->
+    <view wx:if="{{shimmer}}" class="sk-progress-shimmer"></view>
+  </view>
+
+  <!-- Glow effect -->
+  <view class="sk-progress-glow {{color}}" style="width: {{displayValue}}%; border-radius: {{radius}};"></view>
+</view>

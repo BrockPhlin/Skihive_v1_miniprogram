@@ -1,0 +1,148 @@
+<view class="analytics-page">
+  <!-- 顶部导航 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="navigateBack">
+      <text style="position: relative; left: -8rpx; top: 108rpx; color: #ffffff">←</text>
+    </view>
+    
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- Page Header -->
+  <view class="page-header">
+    <text class="page-title">数据统计</text>
+    <text class="page-subtitle">您的飞行数据分析</text>
+  </view>
+
+  <!-- Four Dimensional Radar Chart -->
+  <view class="section radar-section fade-in">
+    <view class="section-header">
+      <text class="section-title">四维人格分析</text>
+      <text class="section-desc">基于您的飞行数据生成</text>
+    </view>
+    <view class="radar-container">
+      <radar-chart
+        labels="{{radarLabels}}"
+        data="{{personalityData}}"
+        size="280"
+        fill-color="rgba(133, 94, 227, 0.3)"
+        stroke-color="#855ee3"
+      />
+    </view>
+    <view class="personality-tags">
+      <view class="personality-tag" wx:for="{{personalityTags}}" wx:key="index" style="animation-delay: {{index * 0.1}}s">
+        <text class="tag-name">{{item.name}}</text>
+        <text class="tag-value">{{item.value}}分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Statistics Cards -->
+  <view class="section stats-section">
+    <view class="stats-grid">
+      
+    </view>
+  </view>
+
+  <!-- Task Completion Rate -->
+  <view class="section progress-section fade-in">
+    <view class="section-header">
+      <text class="section-title">任务完成率</text>
+      <text class="section-rate">{{completionRate}}%</text>
+    </view>
+    <view class="progress-container">
+      <progress-bar
+        value="{{completionRate}}"
+        height="16rpx"
+        color="primary"
+        shimmer="{{true}}"
+      />
+    </view>
+    <view class="progress-info">
+      <text class="progress-text">已完成 {{completedTasks}} 个任务</text>
+      <text class="progress-text">共 {{totalTasks}} 个任务</text>
+    </view>
+  </view>
+
+  <!-- Flight Time Trend -->
+  <view class="section trend-section fade-in">
+    <view class="section-header">
+      <text class="section-title">飞行时长趋势</text>
+    </view>
+    <view class="trend-cards">
+      <view class="trend-card" wx-for="{{trendData}}" wx:key="index">
+        <text class="trend-label">{{item.label}}</text>
+        <view class="trend-bar-container">
+          <progress-bar
+            value="{{item.percentage}}"
+            height="24rpx"
+            color="{{item.color}}"
+            shimmer="{{false}}"
+          />
+        </view>
+        <text class="trend-value">{{item.value}}分钟</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Flight Data Summary -->
+  <view class="section summary-section fade-in">
+    <view class="section-header">
+      <text class="section-title">飞行数据摘要</text>
+    </view>
+    <card radius="medium" bordered>
+      <view class="summary-content">
+        <view class="summary-item">
+          <text class="summary-label">平均飞行时长</text>
+          <text class="summary-value">{{avgFlightTime}}分钟</text>
+        </view>
+        <view class="summary-divider"></view>
+        <view class="summary-item">
+          <text class="summary-label">最高评分</text>
+          <text class="summary-value highlight">{{maxScore}}分</text>
+        </view>
+        <view class="summary-divider"></view>
+        <view class="summary-item">
+          <text class="summary-label">平均评分</text>
+          <text class="summary-value">{{avgScore}}分</text>
+        </view>
+        <view class="summary-divider"></view>
+        <view class="summary-item">
+          <text class="summary-label">最近飞行</text>
+          <text class="summary-value">{{lastFlightTime}}</text>
+        </view>
+      </view>
+    </card>
+  </view>
+
+  <!-- Personality Distribution -->
+  <view class="section personality-section fade-in">
+    <view class="section-header">
+      <text class="section-title">人格分布</text>
+    </view>
+    <view class="personality-bars">
+      <view class="personality-bar-item" wx-for="{{personalityDistribution}}" wx:key="index">
+        <view class="personality-bar-header">
+          <text class="personality-bar-label">{{item.name}}</text>
+          <text class="personality-bar-value">{{item.value}}%</text>
+        </view>
+        <view class="personality-bar-track">
+          <progress-bar
+            value="{{item.value}}"
+            height="12rpx"
+            color="{{item.color}}"
+            shimmer="{{false}}"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Empty State -->
+  <view class="empty-state" wx:if="{{isEmpty}}">
+    <view class="empty-icon">📊</view>
+    <text class="empty-text">暂无飞行数据</text>
+    <text class="empty-subtext">开始您的第一次飞行来获取数据</text>
+    <button class="start-fly-btn" bindtap="goToIndex">去飞行</button>
+  </view>
+</view>

@@ -1,0 +1,62 @@
+/* progress-bar.wxss */
+.sk-progress {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sk-progress-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sk-progress-fill {
+  position: relative;
+  height: 100%;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.sk-progress-fill.primary { background: linear-gradient(90deg, #855ee3, #9d7ff0); }
+.sk-progress-fill.success { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.sk-progress-fill.warning { background: linear-gradient(90deg, #fdcb6e, #e67e22); }
+.sk-progress-fill.danger { background: linear-gradient(90deg, #ef4444, #f87171); }
+.sk-progress-fill.gold { background: linear-gradient(90deg, #fdcb6e, #ffd700); }
+
+.sk-progress-fill.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+
+.sk-progress-glow {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 4rpx;
+  transform: translateY(-50%);
+  filter: blur(8rpx);
+  opacity: 0.6;
+}
+
+.sk-progress-glow.primary { background: #9d7ff0; }
+.sk-progress-glow.success { background: #4ade80; }
+.sk-progress-glow.warning { background: #ffeaa7; }
+.sk-progress-glow.danger { background: #f87171; }
+.sk-progress-glow.gold { background: #ffd700; }

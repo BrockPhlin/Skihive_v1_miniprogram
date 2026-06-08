@@ -1,0 +1,192 @@
+/* Card Component Styles */
+
+.sk-card {
+  position: relative;
+  background: rgba(22, 33, 62, 0.8);
+  overflow: hidden;
+  transition: all 0.25s ease-out;
+}
+
+/* ==================== Radius Variants ==================== */
+.sk-card.radius-small { border-radius: 12rpx; }
+.sk-card.radius-medium { border-radius: 20rpx; }
+.sk-card.radius-large { border-radius: 28rpx; }
+
+/* ==================== Border ==================== */
+.sk-card.bordered {
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== Clickable ==================== */
+.sk-card.clickable {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sk-card.clickable:active {
+  transform: scale(0.98);
+}
+
+.sk-card.pressed {
+  transform: scale(0.98);
+}
+
+/* ==================== Selected State ==================== */
+.sk-card.selected {
+  border: 2rpx solid #855ee3;
+  box-shadow: 0 0 30rpx rgba(133, 94, 227, 0.5);
+}
+
+/* ==================== Cover Image ==================== */
+.sk-card-cover {
+  width: 100%;
+  height: 200rpx;
+  display: block;
+}
+
+.sk-card.radius-small .sk-card-cover { border-radius: 12rpx 12rpx 0 0; }
+.sk-card.radius-medium .sk-card-cover { border-radius: 20rpx 20rpx 0 0; }
+.sk-card.radius-large .sk-card-cover { border-radius: 28rpx 28rpx 0 0; }
+
+/* ==================== Tag ==================== */
+.sk-card-tag {
+  position: absolute;
+  top: 16rpx;
+  left: 16rpx;
+  padding: 6rpx 16rpx;
+  font-size: 20rpx;
+  font-weight: 600;
+  border-radius: 20rpx;
+  color: #ffffff;
+  z-index: 2;
+}
+
+.sk-card-tag.tag-primary {
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+}
+
+.sk-card-tag.tag-success {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.sk-card-tag.tag-warning {
+  background: linear-gradient(135deg, #fdcb6e 0%, #e67e22 100%);
+  color: #1a1a2e;
+}
+
+.sk-card-tag.tag-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* ==================== Content ==================== */
+.sk-card-content {
+  padding: 24rpx;
+}
+
+/* ==================== Header ==================== */
+.sk-card-header {
+  margin-bottom: 16rpx;
+}
+
+.sk-card-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.sk-card-subtitle {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+/* ==================== Body ==================== */
+.sk-card-body {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+/* ==================== Selected Indicator ==================== */
+.sk-card-selected-indicator {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: linear-gradient(135deg, #855ee3 0%, #6c4bd4 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.sk-card-selected-indicator .icon {
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ==================== Animated Border ==================== */
+.sk-card-border-animated {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sk-card-border-animated::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(133, 94, 227, 0.3) 50%,
+    transparent 70%
+  );
+  animation: shimmerMove 3s linear infinite;
+}
+
+@keyframes shimmerMove {
+  from { transform: translateX(-50%) rotate(0deg); }
+  to { transform: translateX(50%) rotate(360deg); }
+}
+
+/* ==================== Hover Effects (for clickable) ==================== */
+.sk-card.clickable:hover {
+  box-shadow: 0 15rpx 50rpx rgba(0, 0, 0, 0.5);
+  transform: translateY(-5rpx);
+}
+
+.sk-card.clickable.selected:hover {
+  box-shadow: 0 15rpx 50rpx rgba(133, 94, 227, 0.5);
+}
+
+/* ==================== Gradient Background Variant ==================== */
+.sk-card.gradient {
+  background: linear-gradient(145deg, rgba(30, 45, 80, 0.9), rgba(22, 33, 62, 0.8));
+}
