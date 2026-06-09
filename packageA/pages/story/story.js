@@ -873,6 +873,13 @@ Page({
 
     // 检查是否有下一章节
     if (selectedOption.nextChapter) {
+      // 先标记当前章节完成 + 持久化（否则 goToNextChapter 读 chapters 时下一章还是 locked）
+      const { secretUnlocked, currentChapter } = this.data
+      secretUnlocked[currentChapter.id] = true
+      app.globalData.storySecretUnlocked = secretUnlocked
+      storage.setStorySecretUnlocked(secretUnlocked)
+      // 重新计算章节状态，下一章才会从 locked 变为 new
+      this.initChapters()
       this.goToNextChapter(selectedOption.nextChapter)
       return
     }
