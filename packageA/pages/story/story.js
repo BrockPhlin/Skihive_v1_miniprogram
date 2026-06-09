@@ -1,5 +1,6 @@
 // story.js
 const app = getApp()
+const { storage } = require('../../../utils/storage.js')
 
 Page({
   data: {
@@ -614,7 +615,30 @@ Page({
   },
 
   onLoad(options) {
+    // 优先从持久化存储恢复章节完成状态，避免退出小程序后丢失
+    const persisted = storage.getStorySecretUnlocked()
+    if (persisted && Object.keys(persisted).length > 0) {
+      app.globalData.storySecretUnlocked = {
+        ...(app.globalData.storySecretUnlocked || {}),
+        ...persisted
+      }
+    }
     this.initChapters()
+  },
+
+  onShow() {
+    // 从其他页面返回 story 时（如完成剧情后返回）重新计算解锁状态
+    if (this.data.chapters && this.data.chapters.length > 0) {
+      // 同步最新持久化状态
+      const persisted = storage.getStorySecretUnlocked()
+      if (persisted) {
+        app.globalData.storySecretUnlocked = {
+          ...(app.globalData.storySecretUnlocked || {}),
+          ...persisted
+        }
+      }
+      this.initChapters()
+    }
   },
 
   // 初始化章节数据
@@ -657,9 +681,10 @@ Page({
   // 章节点击
   onChapterTap(e) {
     const chapterId = e.currentTarget.dataset.chapterId
-    const chapter = this.chapterData[chapterId]
+    // 统一从 this.data.chapters 读取动态状态（不再依赖 chapterData 硬编码）
+    const chapter = (this.data.chapters || []).find((c) => c.id === chapterId)
 
-    if (chapter.locked) {
+    if (!chapter || chapter.locked) {
       wx.showToast({
         title: '该章节未解锁',
         icon: 'none'
@@ -893,6 +918,8 @@ Page({
     secretUnlocked[chapterId] = true
 
     app.globalData.storySecretUnlocked = secretUnlocked
+    // 持久化：避免退出小程序后丢失
+    storage.setStorySecretUnlocked(secretUnlocked)
 
     wx.showToast({
       title: '🔮 发现隐藏线索',
@@ -934,6 +961,8 @@ Page({
     // 标记章节完成
     secretUnlocked[currentChapter.id] = true
     app.globalData.storySecretUnlocked = secretUnlocked
+    // 持久化：避免退出小程序后丢失（章节2/3/4 才能正确解锁）
+    storage.setStorySecretUnlocked(secretUnlocked)
 
     wx.showModal({
       title: '🎉 章节完成',

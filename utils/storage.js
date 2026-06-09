@@ -19,6 +19,7 @@ const STORAGE_KEYS = {
   TUTORIAL_PROGRESS: 'skihive_tutorial_progress',
   SHOP_INVENTORY: 'skihive_shop_inventory',
   DAILY_REWARDS: 'skihive_daily_rewards',
+  STORY_SECRET_UNLOCKED: 'skihive_story_secret_unlocked',
 };
 
 /**
@@ -264,6 +265,22 @@ class Storage {
       return this.setTutorialProgress(step);
     }
     return true;
+  }
+
+  /**
+   * 获取剧情章节完成状态（章节/隐藏结局解锁记录）
+   * @returns {Object} { [chapterId]: true }
+   */
+  getStorySecretUnlocked() {
+    return this.get(STORAGE_KEYS.STORY_SECRET_UNLOCKED, {});
+  }
+
+  /**
+   * 持久化剧情章节完成状态
+   * @param {Object} secretUnlocked - { [chapterId]: true }
+   */
+  setStorySecretUnlocked(secretUnlocked) {
+    return this.set(STORAGE_KEYS.STORY_SECRET_UNLOCKED, secretUnlocked || {});
   }
 
   /**
