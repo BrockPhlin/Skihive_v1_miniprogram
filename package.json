@@ -10,8 +10,5 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
-    "@vant/weapp": "^1.11.7",
-    "dayjs": "^1.11.20"
-  }
+  "dependencies": {}
 }
